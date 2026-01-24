@@ -35,15 +35,17 @@ include '../Includes/session.php';
             $students = $row1 && isset($row1['total']) ? intval($row1['total']) : 0;
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="createStudents.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-blue">
-                    <i class="fas fa-user-graduate"></i>
+              <a href="createStudents.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-blue">
+                      <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $students;?></div>
+                    <div class="stats-label">Total Students</div>
                   </div>
-                  <div class="stats-value"><?php echo $students;?></div>
-                  <div class="stats-label">Total Students</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Teachers Card -->
@@ -52,15 +54,17 @@ include '../Includes/session.php';
             $classTeacher = mysqli_num_rows($query1);
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="createClassTeacher.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-purple">
-                    <i class="fas fa-chalkboard-teacher"></i>
+              <a href="createClassTeacher.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-purple">
+                      <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $classTeacher;?></div>
+                    <div class="stats-label">Class Teachers</div>
                   </div>
-                  <div class="stats-value"><?php echo $classTeacher;?></div>
-                  <div class="stats-label">Class Teachers</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Class Card -->
@@ -69,15 +73,17 @@ include '../Includes/session.php';
             $class = mysqli_num_rows($query1);
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="createClass.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-green">
-                    <i class="fas fa-chalkboard"></i>
+              <a href="createClass.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-green">
+                      <i class="fas fa-chalkboard"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $class;?></div>
+                    <div class="stats-label">Total Classes</div>
                   </div>
-                  <div class="stats-value"><?php echo $class;?></div>
-                  <div class="stats-label">Total Classes</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Attendance Card -->
@@ -86,15 +92,17 @@ include '../Includes/session.php';
             $totAttendance = mysqli_num_rows($query1);
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="todayAttendanceSummary.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-red">
-                    <i class="fas fa-calendar-check"></i>
+              <a href="todayAttendanceSummary.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-red">
+                      <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $totAttendance;?></div>
+                    <div class="stats-label">Attendance Logs</div>
                   </div>
-                  <div class="stats-value"><?php echo $totAttendance;?></div>
-                  <div class="stats-label">Attendance Logs</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Session Card -->
@@ -103,15 +111,17 @@ include '../Includes/session.php';
             $sessTerm = $query1 ? mysqli_num_rows($query1) : 0;
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="createSessionTerm.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-orange">
-                    <i class="fas fa-history"></i>
+              <a href="createSessionTerm.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-orange">
+                      <i class="fas fa-history"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $sessTerm;?></div>
+                    <div class="stats-label">Sessions & Terms</div>
                   </div>
-                  <div class="stats-value"><?php echo $sessTerm;?></div>
-                  <div class="stats-label">Sessions & Terms</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Semesters Card -->
@@ -120,15 +130,17 @@ include '../Includes/session.php';
             $classArms = mysqli_num_rows($query1);
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="createClassArms.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-cyan">
-                    <i class="fas fa-layer-group"></i>
+              <a href="createClassArms.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-cyan">
+                      <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $classArms;?></div>
+                    <div class="stats-label">Total Semesters</div>
                   </div>
-                  <div class="stats-value"><?php echo $classArms;?></div>
-                  <div class="stats-label">Total Semesters</div>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Divisions Card -->
@@ -137,15 +149,17 @@ include '../Includes/session.php';
             $termonly = mysqli_num_rows($query1);
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card app-dashboard-card" data-href="divisionsList.php">
-                <div class="card-body">
-                  <div class="icon-box bg-soft-orange">
-                    <i class="fas fa-th"></i>
+              <a href="divisionsList.php" class="text-decoration-none shadow-none">
+                <div class="card app-dashboard-card">
+                  <div class="card-body">
+                    <div class="icon-box bg-soft-orange">
+                      <i class="fas fa-th"></i>
+                    </div>
+                    <div class="stats-value"><?php echo $termonly;?></div>
+                    <div class="stats-label">Total Divisions</div>
                   </div>
-                  <div class="stats-value"><?php echo $termonly;?></div>
-                  <div class="stats-label">Total Divisions</div>
                 </div>
-              </div>
+              </a>
             </div>
           </div>
           <!--Row-->
@@ -174,16 +188,8 @@ include '../Includes/session.php';
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const cards = document.querySelectorAll('.app-dashboard-card');
-      
       cards.forEach(card => {
-        // Add click functionality for items with data-href
-        const href = card.getAttribute('data-href');
-        if(href){
-          card.style.cursor = 'pointer';
-          card.addEventListener('click', () => {
-            window.location.href = href;
-          });
-        }
+        card.style.cursor = 'pointer';
       });
     });
   </script>

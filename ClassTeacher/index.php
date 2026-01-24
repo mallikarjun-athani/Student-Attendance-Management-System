@@ -59,63 +59,57 @@ $query1=mysqli_query($conn,"SELECT * from tblstudents where classId = '$_SESSION
 $students = mysqli_num_rows($query1);
 ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100 app-dashboard-card" data-href="totalStudents.php" role="button" tabindex="0" aria-label="Open total students">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Total Students</div>
-                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $students;?></div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                        <span>Since last month</span> -->
+              <a href="totalStudents.php" class="text-decoration-none shadow-none">
+                <div class="card h-100 app-dashboard-card">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Total Students</div>
+                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $students;?></div>
                       </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-users fa-2x text-info"></i>
+                      <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-info"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
             <!-- Earnings (Monthly) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100 app-dashboard-card" data-href="classDetails.php" role="button" tabindex="0" aria-label="Open class details">
-                <div class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Class</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['className'])) ? $rrw['className'] : 'Not Assigned';?></div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <!-- <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                        <span>Since last month</span> -->
+              <a href="classDetails.php" class="text-decoration-none shadow-none">
+                <div class="card h-100 app-dashboard-card">
+                  <div class="card-body">
+                    <div class="row align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Class</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['className'])) ? $rrw['className'] : 'Not Assigned';?></div>
                       </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-chalkboard fa-2x text-primary"></i>
+                      <div class="col-auto">
+                        <i class="fas fa-chalkboard fa-2x text-primary"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
             <!-- Earnings (Annual) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100 app-dashboard-card" data-href="semesterDetails.php" role="button" tabindex="0" aria-label="Open semester details">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Semester</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['semisterName'])) ? $rrw['semisterName'] : 'Not Assigned';?></div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <!-- <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
-                        <span>Since last years</span> -->
+              <a href="semesterDetails.php" class="text-decoration-none shadow-none">
+                <div class="card h-100 app-dashboard-card">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Semester</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['semisterName'])) ? $rrw['semisterName'] : 'Not Assigned';?></div>
                       </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-code-branch fa-2x text-success"></i>
+                      <div class="col-auto">
+                        <i class="fas fa-code-branch fa-2x text-success"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
             
             <!-- Pending Requests Card Example -->
@@ -124,23 +118,21 @@ $query1=mysqli_query($conn,"SELECT * from tblattendance where classId = '$_SESSI
 $totAttendance = mysqli_num_rows($query1);
 ?>
             <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card h-100 app-dashboard-card" data-href="todayAttendanceSummary.php" role="button" tabindex="0" aria-label="Open today attendance summary">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-uppercase mb-1">Total Student Attendance</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totAttendance;?></div>
-                      <div class="mt-2 mb-0 text-muted text-xs">
-                        <!-- <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
-                        <span>Since yesterday</span> -->
+              <a href="todayAttendanceSummary.php" class="text-decoration-none shadow-none">
+                <div class="card h-100 app-dashboard-card">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-uppercase mb-1">Total Student Attendance</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totAttendance;?></div>
                       </div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-calendar fa-2x text-warning"></i>
+                      <div class="col-auto">
+                        <i class="fas fa-calendar fa-2x text-warning"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           
           <!--Row-->
@@ -174,35 +166,12 @@ $totAttendance = mysqli_num_rows($query1);
   <script src="js/demo/chart-area-demo.js"></script>  
 
   <script>
-    (function(){
-      function ready(fn){
-        if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fn);}else{fn();}
-      }
-
-      function navigateFromCard(cardEl){
-        if(!cardEl) return;
-        var href = cardEl.getAttribute('data-href');
-        if(href){
-          window.location.href = href;
-        }
-      }
-
-      ready(function(){
-        var cards = document.querySelectorAll('.app-dashboard-card');
-        for(var i=0;i<cards.length;i++){
-          (function(cardEl){
-            cardEl.addEventListener('click', function(){ navigateFromCard(cardEl); });
-            cardEl.addEventListener('keydown', function(e){
-              var key = e.key || e.keyCode;
-              if(key === 'Enter' || key === ' ' || key === 13 || key === 32){
-                e.preventDefault();
-                navigateFromCard(cardEl);
-              }
-            });
-          })(cards[i]);
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.app-dashboard-card');
+      cards.forEach(card => {
+        card.style.cursor = 'pointer';
       });
-    })();
+    });
   </script>
 </body>
 
