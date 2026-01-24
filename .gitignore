@@ -1,0 +1,32 @@
+# Database configuration (sensitive)
+Includes/dbcon.php
+
+# User uploads
+uploads/**/*
+!uploads/
+!uploads/students/
+!uploads/.gitkeep
+
+# Session/Temp files
+*.log
+*.tmp
+sess_*
+
+# IDEs and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vendor directory (if managing with Composer, uncomment below)
+# vendor/
+
+# Node modules (from any remaining frontend work)
+node_modules/
+package-lock.json
+
+# Backup/Debug files
+*.bak
+*.swp
+debug.php
+reset_admin.php

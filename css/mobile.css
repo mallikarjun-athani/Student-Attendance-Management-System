@@ -1,0 +1,155 @@
+/* Mobile-First Responsive Styles for Student Attendance System */
+
+/* 
+  Screen Sizes:
+  - 360px, 375px, 414px (Mobile)
+  - 768px (Tablet)
+*/
+
+/* --- General --- */
+body {
+    -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape mode */
+}
+
+/* --- Layout --- */
+@media (max-width: 768px) {
+    /* Force single-column layout for containers */
+    .container-fluid, .container-login {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* Adjust columns to be full-width */
+    [class*="col-"] {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Force vertical stacking for flex items */
+    .d-sm-flex {
+        flex-direction: column;
+    }
+}
+
+/* --- Buttons --- */
+@media (max-width: 768px) {
+    .btn {
+        min-height: 44px;
+        font-size: 16px;
+    }
+
+    .app-back-btn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #007bff;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .app-back-btn span {
+        display: none; /* Hide text on floating button */
+    }
+}
+
+/* --- Tables to Cards --- */
+@media (max-width: 768px) {
+    .table-responsive .table {
+        border: 0;
+    }
+
+    .table thead {
+        display: none; /* Hide table headers */
+    }
+
+    .table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: .25rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .table td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-top: none;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        text-align: left;
+        white-space: nowrap;
+    }
+}
+
+/* --- Sidebar --- */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px; /* Hidden by default */
+        width: 250px;
+        height: 100%;
+        z-index: 1031;
+        transition: left 0.3s ease;
+    }
+    .sidebar.toggled {
+        left: 0; /* Shown when toggled */
+    }
+    #content-wrapper {
+        margin-left: 0;
+    }
+}
+
+/* --- Dashboard Cards --- */
+@media (max-width: 768px) {
+    .app-dashboard-card, .dashboard-card-blue {
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* --- QR Code Camera --- */
+@media (max-width: 768px) {
+    #qr-reader {
+        width: 100% !important;
+        border: none !important;
+    }
+    #qr-reader-results {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-top: 1rem;
+    }
+}
+
+/* --- Popups --- */
+@media (max-width: 768px) {
+    .alert {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+    }
+}
