@@ -249,11 +249,11 @@ if(isset($_POST['save'])){
                       <div class="form-group col-12 col-md-6 mb-3">
                         <label class="form-control-label">Division</label>
                         <select name="division" class="form-control">
-                          <option value="">--Select Division--</option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                          <option value="C">C</option>
-                          <option value="D">D</option>
+                          <option value="Not Applicable" <?php echo (isset($row['division']) && $row['division'] == 'Not Applicable') || !isset($row['division']) ? 'selected' : ''; ?>>Not Applicable</option>
+                          <option value="A" <?php echo (isset($row['division']) && $row['division'] == 'A') ? 'selected' : ''; ?>>A</option>
+                          <option value="B" <?php echo (isset($row['division']) && $row['division'] == 'B') ? 'selected' : ''; ?>>B</option>
+                          <option value="C" <?php echo (isset($row['division']) && $row['division'] == 'C') ? 'selected' : ''; ?>>C</option>
+                          <option value="D" <?php echo (isset($row['division']) && $row['division'] == 'D') ? 'selected' : ''; ?>>D</option>
                         </select>
                       </div>
 
