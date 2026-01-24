@@ -34,14 +34,14 @@ if(isset($_POST['save'])){
             if ($session != '' && $division != '') {
                 $dateCreated = date("Y-m-d");
 
-                // ensure division exists in tblDivision
-                $divisionRes = mysqli_query($conn, "SELECT Id FROM tblDivision WHERE divisionName = '$division' LIMIT 1");
+                // ensure division exists in tbldivision
+                $divisionRes = mysqli_query($conn, "SELECT Id FROM tbldivision WHERE divisionName = '$division' LIMIT 1");
                 $divisionRow = $divisionRes ? mysqli_fetch_assoc($divisionRes) : null;
 
                 if ($divisionRow && isset($divisionRow['Id'])) {
                     $divisionId = $divisionRow['Id'];
                 } else {
-                    $insertDivision = mysqli_query($conn, "INSERT INTO tblDivision(divisionName) VALUE('$division')");
+                    $insertDivision = mysqli_query($conn, "INSERT INTO tbldivision(divisionName) VALUE('$division')");
                     if ($insertDivision) {
                         $divisionId = mysqli_insert_id($conn);
                     } else {
