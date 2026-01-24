@@ -36,11 +36,17 @@ A high-performance, modern, and aesthetically premium Student Attendance Managem
 
 ---
 
-## 🔄 System Workflow
+## 🏗️ System Working Flow
 
-![System Workflow](img/readme/workflow.png)
+The application follows a highly decoupled and performant workflow to ensure sub-second response times and 100% data durability.
 
-The system operates on an integrated workflow where the **Administrator** seeds the data, the **Teacher** executes the attendance marking, and the **Student** consumes the analytics and reports in real-time.
+![System Working Flow](img/readme/technical_workflow.png)
+
+### Architecture Highlights:
+- **User Roles Strategy**: Segregated access for Administrators, Teachers, and Students via professional session management.
+- **PHP Core Logic**: A robust procedural backend handling all business logic, routing, and dynamic data processing.
+- **Premium UI Engine**: A sophisticated design system using custom CSS tokens, 'Outfit' typography, and a fully responsive grid system.
+- **MySQL Persistence**: Optimized database schemas for high-speed attendance logs and relational integrity.
 
 ---
 
