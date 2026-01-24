@@ -1,25 +1,90 @@
-# Student-Attendance-Management-System
-This PHP attendance system project is primarily concerned with dealing with students' attendance and records. In addition, the system displays all available data, such as instructor and student information, as well as their individual attendance. Admin Panel, Student Panel, and Teacher's Panel are the three sections of the project. In this web app's overview, the administrator has the ability to create users as well as insert student and teacher data. In terms of the project, the administrator has access to all student and teacher records. The teacher's account allows him or her to filter student data and keep track of his or her attendance for a certain subject. Aside from that, the student has access to just records and attendance reports.
+# 🎓 Student Attendance Management System (SAMS) Pro
 
-*Youtube Channel: https://www.youtube.com/@codecampbdofficial
+[![Status](https://img.shields.io/badge/Status-Premium_UI-8b5cf6.svg)]()
+[![PHP](https://img.shields.io/badge/PHP-7.4+-777bb4.svg)]()
+[![MySQL](https://img.shields.io/badge/MySQL-Database-4479a1.svg)]()
 
-** Admin Login Details **
-* Email   : admin@mail.com
-* Password: (Password on the YouTube video)
+A high-performance, modern, and aesthetically premium Student Attendance Management System. Built with a focus on speed, user experience, and real-time tracking, SAMS Pro provides a comprehensive solution for educational institutions to manage student records and daily attendance seamlessly.
 
-* Video Link: https://www.youtube.com/watch?v=ra84Xw-dd4Y&t=74s
+---
 
-**Teacher Login Details**
+## ✨ Project Preview
 
-* Email   : teacher@mail.com
-* Password: (Password on the YouTube video)
+![SAMS Dashboard](img/readme/dashboard.png)
 
-* Video Link: https://www.youtube.com/watch?v=ra84Xw-dd4Y&t=74s
-#
-![Screenshot (1308)](https://user-images.githubusercontent.com/36708000/173136998-4de6eccc-377f-419e-83b6-e767503bbb5d.png)
-#
-![Screenshot (1309)](https://user-images.githubusercontent.com/36708000/173137041-69d68213-077d-4362-bd4e-cfba5a6b2202.png)
-#
-![Screenshot (1313)](https://user-images.githubusercontent.com/36708000/173137057-5aad5420-7689-4d5e-aae0-df796154e993.png)
-#
-![Screenshot (1316)](https://user-images.githubusercontent.com/36708000/173137075-81d7b66e-a5cc-4228-ab14-cecc465701d7.png)
+---
+
+## 🚀 Key Features
+
+### 🏛️ Administrator Portal
+- **Overview Dashboard**: Real-time stats for students, teachers, and classes.
+- **User Management**: Create and manage Class Teachers and Student accounts.
+- **Academic Setup**: Configure Sessions, Semesters, Classes, and Divisions.
+- **Security**: Granular access control and password management.
+
+### 👨‍🏫 Class Teacher Portal
+- **Subject Tracking**: Manage attendance for specific assigned subjects.
+- **Smart Filters**: Filter and search student data effortlessly.
+- **Record Entry**: Take daily attendance with a clean, responsive UI.
+- **Reports**: View overall and subject-wise attendance history.
+
+### 🎓 Student Portal
+- **Personalized Dashboard**: Track individual academic progress.
+- **Attendance Insights**: View overall percentage and subject-specific reports.
+- **QR Identity**: Access a digital "Identity Pass" for scanned verification.
+- **Pro Profile**: Interactive profile card showing personal academic metadata.
+
+---
+
+## 🔄 System Workflow
+
+![System Workflow](img/readme/workflow.png)
+
+The system operates on an integrated workflow where the **Administrator** seeds the data, the **Teacher** executes the attendance marking, and the **Student** consumes the analytics and reports in real-time.
+
+---
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+- Web Server (XAMPP, WAMP, or MAMP)
+- PHP 7.4+
+- MySQL Database
+
+### Step-by-Step Installation
+1. **Clone the Project**:
+   ```bash
+   git clone https://github.com/mallikarjun-athani/Student-Attendance-Management-System.git
+   ```
+2. **Setup Database**:
+   - Open **phpMyAdmin**.
+   - Create a new database named `attendancemsystem`.
+   - Import the SQL file from the `DATABASE FILE` directory.
+3. **Configure Connection**:
+   - Update `Includes/dbcon.php` with your local database credentials.
+4. **Run**:
+   - Host the folder in your `htdocs` directory and navigate to `http://localhost/Student-Attendance-Management-System/`
+
+---
+
+## 🔐 Default Credentials
+
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin@mail.com` | `password` |
+| **Teacher** | `teacher@mail.com` | `password` |
+
+*(Note: Passwords are MD5 hashed in the database)*
+
+---
+
+## 🎨 Design Aesthetics
+SAMS Pro utilizes a **"Pro Cosmic"** design system featuring:
+- **Gradient Headers**: Vibrant Indigo & Violet themes.
+- **Outfit Typography**: Modern and readable geometric font.
+- **Micro-Animations**: Smooth transitions for an interactive feel.
+- **Mobile First**: Fully responsive tables and forms optimized for all devices.
+
+---
+
+Developed with ❤️ and focus on Excellence.
