@@ -13,10 +13,10 @@ A high-performance, modern, and aesthetically premium Student Attendance Managem
 ![SAMS Dashboard](img/readme/dashboard.png)
 
 ---
-## 🔗Live Demo 
+ ## 🔗Live Demo 
 https://student-attendance-management.infinityfreeapp.com/
----
 
+----
 ## 🚀 Key Features
 
 ### 🏛️ Administrator Portal
