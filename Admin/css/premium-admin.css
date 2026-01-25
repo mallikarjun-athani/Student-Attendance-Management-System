@@ -188,6 +188,13 @@ body {
     color: var(--primary) !important;
 }
 
+/* Hide Topbar Toggle on Desktop if requested */
+@media (min-width: 768px) {
+    #sidebarToggleTop {
+        display: none !important;
+    }
+}
+
 /* --- Pro Dashboard Cards --- */
 .card {
     background: #ffffff !important;
