@@ -10,8 +10,8 @@
     /* Workspace Surfaces */
     --bg-main: #f8fafc;
     /* Cool Slate Gray */
-    --sidebar-bg: #0f172a;
-    /* Deep Slate */
+    --sidebar-bg: #05070a;
+    /* Ultra Deep Premium Black */
     --sidebar-hover: rgba(255, 255, 255, 0.08);
 
     /* Card & Components */
@@ -74,6 +74,8 @@ body {
 .sidebar-brand {
     padding: 2.5rem 1.5rem !important;
     height: auto !important;
+    background: transparent !important;
+    /* Ensure it matches sidebar bg */
 }
 
 .sidebar-brand-text {
@@ -83,6 +85,7 @@ body {
     color: #fff !important;
     text-transform: none !important;
     margin-left: 12px;
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.2);
 }
 
 .nav-item {
@@ -629,18 +632,23 @@ h6,
 }
 
 .brand-icon-grad {
-    background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 4px 10px rgba(249, 115, 22, 0.2));
+    filter: drop-shadow(0 4px 10px rgba(99, 102, 241, 0.3));
+}
+
+.brand-text-primary {
+    color: #ffffff !important;
 }
 
 .brand-text-grad {
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    background: linear-gradient(135deg, #a5b4fc 0%, #c084fc 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-weight: 900 !important;
 }
 
 /* --- Sidebar Refinements --- */

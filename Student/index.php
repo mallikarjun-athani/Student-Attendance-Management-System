@@ -35,7 +35,7 @@ $stmt->close();
         <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow-sm" style="background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);">
           <div class="container-fluid">
             <div class="d-flex flex-column justify-content-center">
-              <h4 class="font-weight-bold mb-0" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;">SAMS <span style="background: var(--primary-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Portal</span></h4>
+              <h4 class="font-weight-bold mb-0" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">Portal</span></h4>
             </div>
             <ul class="navbar-nav ml-auto align-items-center">
               <li class="nav-item">

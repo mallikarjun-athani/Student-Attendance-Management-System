@@ -1,9 +1,9 @@
  <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center" href="index.php">
         <div class="sidebar-brand-icon">
-            <i class="fas fa-chalkboard-teacher fa-2x" style="background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            <i class="fas fa-chalkboard-teacher fa-2x brand-icon-grad"></i>
         </div>
-        <div class="sidebar-brand-text">SAMS <span style="background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">TEACHER</span></div>
+        <div class="sidebar-brand-text"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">TEACHER</span></div>
     </a>
     
     <div class="sidebar-heading">Main Menu</div>

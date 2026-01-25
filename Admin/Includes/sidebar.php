@@ -3,7 +3,7 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-user-shield fa-2x brand-icon-grad"></i>
         </div>
-        <div class="sidebar-brand-text">SAMS <span class="brand-text-grad">ADMIN</span></div>
+        <div class="sidebar-brand-text"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">ADMIN</span></div>
     </a>
     
     <div class="sidebar-heading">Main Menu</div>

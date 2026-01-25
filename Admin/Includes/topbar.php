@@ -23,7 +23,7 @@
       <i class="fa fa-bars"></i>
     </button>
     <div class="ml-2 d-flex flex-column justify-content-center">
-      <h4 class="font-weight-bold mb-0" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;">SAMS <span style="color: var(--primary);">Admin</span></h4>
+      <h4 class="font-weight-bold mb-0" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">Admin</span></h4>
     </div>
   </div>
 
