@@ -5,9 +5,14 @@
   $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
     $("body").toggleClass("sidebar-toggled");
     $(".sidebar").toggleClass("toggled");
+    
+    // Force layout recalculation for smooth transition
     if ($(".sidebar").hasClass("toggled")) {
       $('.sidebar .collapse').collapse('hide');
-    };
+      $("#content-wrapper").css("margin-left", "0");
+    } else {
+      $("#content-wrapper").removeAttr("style");
+    }
   });
 
   // Close any open menu accordions when window is resized below 768px
