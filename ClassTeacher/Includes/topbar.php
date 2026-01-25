@@ -51,6 +51,12 @@
       </a>
       <div class="dropdown-menu dropdown-menu-right shadow border-0 animated--fade-in" aria-labelledby="userDropdown" style="border-radius: 12px; padding: 0.5rem; margin-top: 15px; min-width: 210px; box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;">
         <div class="dropdown-header text-muted small text-uppercase font-weight-bold mb-1">Teacher Options</div>
+        <a class="dropdown-item py-2 d-flex align-items-center" href="profile.php" style="border-radius: 8px; color: var(--text-primary); font-weight: 500; margin-bottom: 2px;">
+          <div class="mr-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
+            <i class="fas fa-user-circle fa-sm text-primary"></i>
+          </div>
+          <span>My Profile</span>
+        </a>
         <input type="file" id="teacherAvatarInput" accept="image/*" style="display:none;">
         <label class="dropdown-item py-2 d-flex align-items-center" for="teacherAvatarInput" style="border-radius: 8px; color: var(--text-primary); font-weight: 500; cursor:pointer; margin-bottom: 2px;">
           <div class="mr-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background: rgba(78, 102, 241, 0.1); border-radius: 8px;">

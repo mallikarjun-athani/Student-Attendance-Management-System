@@ -52,88 +52,75 @@ include '../Includes/session.php';
             </ol>
           </div>
 
-          <div class="row mb-3">
-          <!-- New User Card Example -->
-          <?php 
-$query1=mysqli_query($conn,"SELECT * from tblstudents where classId = '$_SESSION[classId]' and classArmId = '$_SESSION[classArmId]'");                       
-$students = mysqli_num_rows($query1);
-?>
+          <div class="row">
+            <!-- Total Students Card -->
+            <?php 
+            $query1=mysqli_query($conn,"SELECT * from tblstudents where classId = '$_SESSION[classId]' and classArmId = '$_SESSION[classArmId]'");                       
+            $students = mysqli_num_rows($query1);
+            ?>
             <div class="col-xl-3 col-md-6 mb-4">
               <a href="totalStudents.php" class="text-decoration-none shadow-none">
-                <div class="card h-100 app-dashboard-card">
+                <div class="card app-dashboard-card">
                   <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Total Students</div>
-                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?php echo $students;?></div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-users fa-2x text-info"></i>
-                      </div>
+                    <div class="icon-box bg-soft-blue">
+                      <i class="fas fa-user-graduate"></i>
                     </div>
+                    <div class="stats-value"><?php echo $students;?></div>
+                    <div class="stats-label">Total Students</div>
                   </div>
                 </div>
               </a>
             </div>
-            <!-- Earnings (Monthly) Card Example -->
+
+            <!-- Class Card -->
             <div class="col-xl-3 col-md-6 mb-4">
               <a href="classDetails.php" class="text-decoration-none shadow-none">
-                <div class="card h-100 app-dashboard-card">
+                <div class="card app-dashboard-card">
                   <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Class</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['className'])) ? $rrw['className'] : 'Not Assigned';?></div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-chalkboard fa-2x text-primary"></i>
-                      </div>
+                    <div class="icon-box bg-soft-purple">
+                      <i class="fas fa-chalkboard"></i>
                     </div>
+                    <div class="stats-value" style="font-size: 1.5rem !important;"><?php echo (!empty($rrw) && isset($rrw['className'])) ? $rrw['className'] : 'N/A';?></div>
+                    <div class="stats-label">My Class</div>
                   </div>
                 </div>
               </a>
             </div>
-            <!-- Earnings (Annual) Card Example -->
+
+            <!-- Semester Card -->
             <div class="col-xl-3 col-md-6 mb-4">
               <a href="semesterDetails.php" class="text-decoration-none shadow-none">
-                <div class="card h-100 app-dashboard-card">
+                <div class="card app-dashboard-card">
                   <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Semester</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo (!empty($rrw) && isset($rrw['semisterName'])) ? $rrw['semisterName'] : 'Not Assigned';?></div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-code-branch fa-2x text-success"></i>
-                      </div>
+                    <div class="icon-box bg-soft-green">
+                      <i class="fas fa-layer-group"></i>
                     </div>
+                    <div class="stats-value" style="font-size: 1.5rem !important;"><?php echo (!empty($rrw) && isset($rrw['semisterName'])) ? $rrw['semisterName'] : 'N/A';?></div>
+                    <div class="stats-label">Semester</div>
                   </div>
                 </div>
               </a>
             </div>
-            
-            <!-- Pending Requests Card Example -->
+
+            <!-- Attendance Card -->
             <?php 
-$query1=mysqli_query($conn,"SELECT * from tblattendance where classId = '$_SESSION[classId]' and classArmId = '$_SESSION[classArmId]'");                       
-$totAttendance = mysqli_num_rows($query1);
-?>
+            $query1=mysqli_query($conn,"SELECT * from tblattendance where classId = '$_SESSION[classId]' and classArmId = '$_SESSION[classArmId]'");                       
+            $totAttendance = mysqli_num_rows($query1);
+            ?>
             <div class="col-xl-3 col-md-6 mb-4">
               <a href="todayAttendanceSummary.php" class="text-decoration-none shadow-none">
-                <div class="card h-100 app-dashboard-card">
+                <div class="card app-dashboard-card">
                   <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-uppercase mb-1">Total Student Attendance</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $totAttendance;?></div>
-                      </div>
-                      <div class="col-auto">
-                        <i class="fas fa-calendar fa-2x text-warning"></i>
-                      </div>
+                    <div class="icon-box bg-soft-red">
+                      <i class="fas fa-calendar-check"></i>
                     </div>
+                    <div class="stats-value"><?php echo $totAttendance;?></div>
+                    <div class="stats-label">Total Attendance Records</div>
                   </div>
                 </div>
               </a>
             </div>
+          </div>
           
           <!--Row-->
 

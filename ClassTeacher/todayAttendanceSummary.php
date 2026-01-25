@@ -129,34 +129,29 @@ if ($listRs) {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Summary</h6>
                 </div>
-                <div class="card-body" style="padding-bottom:0;">
                   <div class="row">
-                    <div class="col-md-4 mb-3">
-                      <div class="card border-left-primary shadow-sm">
-                        <div class="card-body">
-                          <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Students</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo intval($totals['totalStudents']); ?></div>
-                        </div>
+                    <div class="col-md-4 mb-4">
+                      <div class="stat-card-premium info">
+                        <div class="stat-card-label">Total Students</div>
+                        <div class="stat-card-value"><?php echo intval($totals['totalStudents']); ?></div>
+                        <div class="stat-card-icon"><i class="fas fa-users"></i></div>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card border-left-success shadow-sm">
-                        <div class="card-body">
-                          <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Present</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo intval($totals['totalPresent']); ?></div>
-                        </div>
+                    <div class="col-md-4 mb-4">
+                      <div class="stat-card-premium success">
+                        <div class="stat-card-label">Total Present</div>
+                        <div class="stat-card-value"><?php echo intval($totals['totalPresent']); ?></div>
+                        <div class="stat-card-icon"><i class="fas fa-user-check"></i></div>
                       </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                      <div class="card border-left-danger shadow-sm">
-                        <div class="card-body">
-                          <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Total Absent</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo intval($totals['totalAbsent']); ?></div>
-                        </div>
+                    <div class="col-md-4 mb-4">
+                      <div class="stat-card-premium danger">
+                        <div class="stat-card-label">Total Absent</div>
+                        <div class="stat-card-value"><?php echo intval($totals['totalAbsent']); ?></div>
+                        <div class="stat-card-icon"><i class="fas fa-user-times"></i></div>
                       </div>
                     </div>
                   </div>
-                </div>
 
                 <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -182,7 +177,7 @@ if ($listRs) {
                             echo "<td data-label=\"Student Name\">".htmlspecialchars($name)."</td>";
                             echo "<td data-label=\"Registration Number\">".htmlspecialchars($stu['admissionNo'] ?? '')."</td>";
                             echo "<td data-label=\"Class\">".htmlspecialchars($stu['className'] ?? '')."</td>";
-                            echo "<td data-label=\"Status\">".($isPresent ? '<span class=\"badge badge-success\">Present</span>' : '<span class=\"badge badge-danger\">Absent</span>')."</td>";
+                            echo "<td data-label=\"Status\">".($isPresent ? '<span class="badge badge-success px-3 py-2" style="border-radius:8px;">Present</span>' : '<span class="badge badge-danger px-3 py-2" style="border-radius:8px;">Absent</span>')."</td>";
                             echo "</tr>";
                           }
                         } else {

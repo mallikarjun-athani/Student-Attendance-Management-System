@@ -402,6 +402,48 @@ if (isset($_POST['view']) || isset($_POST['sendMail'])) {
             </ol>
           </div>
 
+          <!-- Premium Class Summary Row -->
+          <?php
+          $qClassSum = "SELECT
+              COUNT(DISTINCT ts.Id) as totalClassSessions,
+              SUM(CASE WHEN sa.status='1' THEN 1 ELSE 0 END) as totalPresentMarked,
+              (SELECT COUNT(*) FROM tblstudents WHERE classId = '".$_SESSION['classId']."' AND classArmId = '".$_SESSION['classArmId']."') as studentCount
+            FROM tbltodaysubjects ts
+            LEFT JOIN tblsubjectattendance sa
+              ON sa.subjectId = ts.subjectId
+              AND sa.classId = ts.classId
+              AND sa.classArmId = ts.classArmId
+              AND sa.dateTaken = ts.dateTaken
+            WHERE ts.classId = '".$_SESSION['classId']."' AND ts.classArmId = '".$_SESSION['classArmId']."'";
+          $rsClassSum = $conn->query($qClassSum);
+          $clsSum = $rsClassSum ? $rsClassSum->fetch_assoc() : null;
+          $totalPossibleMarks = ($clsSum['totalClassSessions'] ?? 0) * ($clsSum['studentCount'] ?? 0);
+          $classAvgPct = $totalPossibleMarks > 0 ? round(($clsSum['totalPresentMarked'] / $totalPossibleMarks) * 100, 1) : 0;
+          ?>
+          <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="stat-card-premium info">
+                    <div class="stat-card-label">Total Sessions</div>
+                    <div class="stat-card-value"><?php echo intval($clsSum['totalClassSessions'] ?? 0); ?></div>
+                    <div class="stat-card-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card-premium success">
+                    <div class="stat-card-label">Overall Avg Attendance</div>
+                    <div class="stat-card-value"><?php echo $classAvgPct; ?>%</div>
+                    <div class="stat-card-icon"><i class="fas fa-chart-line"></i></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card-premium warning">
+                    <div class="stat-card-label">Students Tracked</div>
+                    <div class="stat-card-value"><?php echo intval($clsSum['studentCount'] ?? 0); ?></div>
+                    <div class="stat-card-icon"><i class="fas fa-user-graduate"></i></div>
+                </div>
+            </div>
+          </div>
+
           <div class="row">
             <div class="col-lg-12">
               <!-- Form Basic -->
@@ -410,7 +452,10 @@ if (isset($_POST['view']) || isset($_POST['sendMail'])) {
                   <h6 class="m-0 font-weight-bold text-primary">View Student Attendance</h6>
                   <?php if ($overallPct !== null && $selectedStudent) { ?>
                     <div class="text-right">
-                      <span class="badge badge-info">Attendance: <?php echo htmlspecialchars($overallPct); ?>%</span>
+                      <div class="d-inline-flex align-items-center bg-light px-3 py-2" style="border-radius:12px; border: 1px solid var(--card-border);">
+                        <span class="mr-2 font-weight-bold text-dark" style="font-size: 0.85rem;">OVERALL ATTENDANCE:</span>
+                        <span class="h5 mb-0 font-weight-bold text-primary"><?php echo htmlspecialchars($overallPct); ?>%</span>
+                      </div>
                     </div>
                   <?php } ?>
                     <?php echo $statusMsg; ?>
@@ -499,7 +544,7 @@ if (isset($_POST['view']) || isset($_POST['sendMail'])) {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Attendance Percentage</h6>
                   <div class="text-right">
-                    <span class="badge badge-info">Total Attendance: <?php echo htmlspecialchars($overallPct); ?>%</span>
+                    <span class="h6 mb-0 font-weight-bold text-primary">Global Avg: <?php echo htmlspecialchars($overallPct); ?>%</span>
                   </div>
                 </div>
                 <div class="card-body">
