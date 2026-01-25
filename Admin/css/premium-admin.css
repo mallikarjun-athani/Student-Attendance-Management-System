@@ -72,11 +72,21 @@ body {
     z-index: 1001;
 }
 
-/* Sidebar Toggle - Collapsed State */
+/* Sidebar Toggle - Collapsed State (Completely Hidden) */
 .sidebar.toggled {
     width: 0 !important;
     min-width: 0 !important;
-    overflow: hidden;
+    overflow: hidden !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.sidebar.toggled .nav-item,
+.sidebar.toggled .sidebar-brand,
+.sidebar.toggled .sidebar-heading,
+.sidebar.toggled hr {
+    display: none !important;
+    opacity: 0;
 }
 
 .sidebar.toggled+#content-wrapper {
