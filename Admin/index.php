@@ -88,8 +88,10 @@ include '../Includes/session.php';
 
             <!-- Attendance Card -->
             <?php 
-            $query1=mysqli_query($conn,"SELECT * from tblattendance");                       
-            $totAttendance = mysqli_num_rows($query1);
+            // Count from tblsubjectattendance where actual attendance is stored
+            $query1=mysqli_query($conn,"SELECT COUNT(DISTINCT admissionNumber, dateTaken) as cnt FROM tblsubjectattendance WHERE status = '1'");
+            $row1 = $query1 ? mysqli_fetch_assoc($query1) : null;
+            $totAttendance = $row1 && isset($row1['cnt']) ? intval($row1['cnt']) : 0;
             ?>
             <div class="col-xl-3 col-md-6 mb-4">
               <a href="todayAttendanceSummary.php" class="text-decoration-none shadow-none">
