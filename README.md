@@ -1,4 +1,4 @@
-# 🎓 Student Attendance Management System (SAMS) Pro
+# 🎓 Student Attendance Management System (SAMS) 
 
 [![Status](https://img.shields.io/badge/Status-Premium_UI-8b5cf6.svg)]()
 [![PHP](https://img.shields.io/badge/PHP-7.4+-777bb4.svg)]()
