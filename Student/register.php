@@ -355,7 +355,7 @@ if (isset($_POST['register'])) {
                           </div>
                           <div class="col-4">
                               <select name="division" class="form-control border-0 bg-light" required style="border-radius: 10px;">
-                                <option value="">Division</option>
+                                <option value="Not Applicable" selected>Not Applicable</option>
                                 <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
                               </select>
                           </div>
