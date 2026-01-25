@@ -70,6 +70,9 @@
   </ul>
 </nav>
 
+<!-- Sidebar Backdrop for Mobile -->
+<div class="sidebar-mask" id="sidebarMask"></div>
+
 <style>
   .user-profile-container {
     border: 1px solid transparent;
@@ -92,19 +95,36 @@
     }
     ready(function(){
       var btn = document.getElementById('appBackBtn');
-      if(!btn) return;
+      if(btn) {
+        btn.addEventListener('click', function(e){
+          var ref = document.referrer || '';
+          if(!ref) return;
+          try {
+            if (ref.indexOf(window.location.origin) === 0) {
+              e.preventDefault();
+              window.history.back();
+            }
+          } catch (err) {}
+        });
+      }
 
-      btn.addEventListener('click', function(e){
-        var ref = document.referrer || '';
-        if(!ref) return;
-        try {
-          if (ref.indexOf(window.location.origin) === 0) {
-            e.preventDefault();
-            window.history.back();
+      // Pro Mobile Sidebar Toggle Logic
+      var toggleBtn = document.getElementById('sidebarToggleTop');
+      var mask = document.getElementById('sidebarMask');
+      var body = document.body;
+
+      if(toggleBtn && mask) {
+        toggleBtn.addEventListener('click', function() {
+          body.classList.toggle('sidebar-open');
+        });
+        mask.addEventListener('click', function() {
+          body.classList.remove('sidebar-open');
+          var sidebar = document.querySelector('.sidebar');
+          if(sidebar && sidebar.classList.contains('toggled')) {
+            toggleBtn.click();
           }
-        } catch (err) {
-        }
-      });
+        });
+      }
     });
   })();
 </script>

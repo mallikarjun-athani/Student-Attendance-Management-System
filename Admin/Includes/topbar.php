@@ -105,7 +105,7 @@
         mask.addEventListener('click', function() {
           body.classList.remove('sidebar-open');
           var sidebar = document.querySelector('.sidebar');
-          if(sidebar && !sidebar.classList.contains('toggled')) {
+          if(sidebar && sidebar.classList.contains('toggled')) {
             toggleBtn.click();
           }
         });
