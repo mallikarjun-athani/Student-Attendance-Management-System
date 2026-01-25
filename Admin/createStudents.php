@@ -387,7 +387,14 @@ if(isset($_POST['save'])){
 
                       <div class="form-group col-12 col-md-6 mb-3">
                         <label class="form-control-label">Upload Photo<span class="text-danger ml-2">*</span></label>
-                        <input type="file" class="form-control" name="studentPhoto" accept="image/*" oninvalid="this.setCustomValidity('Upload Photo is required.')" oninput="this.setCustomValidity('')">
+                        <input type="file" class="form-control" name="studentPhoto" accept="image/*" id="studentPhotoInput" oninvalid="this.setCustomValidity('Upload Photo is required.')" oninput="this.setCustomValidity('')">
+                        <div class="mt-2">
+                             <?php if(isset($row['photo']) && $row['photo'] != ''): ?>
+                                <img id="imagePreview" src="../<?php echo $row['photo']; ?>" alt="Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                             <?php else: ?>
+                                <img id="imagePreview" src="#" alt="Preview" style="display:none; width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                             <?php endif; ?>
+                        </div>
                       </div>
 
                       <div class="w-100"></div>
@@ -703,6 +710,16 @@ if(isset($_POST['save'])){
       });
 
       updateEmailUi();
+
+      $('#studentPhotoInput').on('change', function (e) {
+        if (e.target.files && e.target.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(re) {
+            $('#imagePreview').attr('src', re.target.result).fadeIn();
+          }
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
     });
 
     function classArmDropdown(str) {

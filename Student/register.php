@@ -388,9 +388,12 @@ if (isset($_POST['register'])) {
 
                   <div class="form-group mb-5">
                     <label class="font-weight-bold small text-uppercase">Profile Photo</label>
-                    <div class="custom-file">
+                    <div class="custom-file mb-3">
                       <input type="file" class="custom-file-input" name="studentPhoto" accept="image/*" required id="customFile">
                       <label class="custom-file-label border-0 bg-light" for="customFile" style="border-radius: 12px;">Choose image...</label>
+                    </div>
+                    <div class="text-center">
+                        <img id="imagePreview" src="#" alt="Preview" style="display:none; width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
                     </div>
                   </div>
 
@@ -574,6 +577,19 @@ if (isset($_POST['register'])) {
       validatePhone();
 
       updateEmailUi();
+
+      $("#customFile").on("change", function(e) {
+        var fileName = e.target.files[0].name;
+        $(this).next(".custom-file-label").html(fileName);
+        
+        if (e.target.files && e.target.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function(re) {
+            $("#imagePreview").attr("src", re.target.result).fadeIn();
+          };
+          reader.readAsDataURL(e.target.files[0]);
+        }
+      });
     });
   </script>
 </body>
