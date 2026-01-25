@@ -10,9 +10,9 @@
     /* Workspace Surfaces */
     --bg-main: #f8fafc;
     /* Cool Slate Gray */
-    --sidebar-bg: #05070a;
-    /* Ultra Deep Premium Black */
-    --sidebar-hover: rgba(255, 255, 255, 0.08);
+    --sidebar-bg: linear-gradient(180deg, #1e1b4b 0%, #312e81 50%, #3730a3 100%);
+    /* Deep Indigo Gradient */
+    --sidebar-hover: rgba(255, 255, 255, 0.12);
 
     /* Card & Components */
     --card-bg: #ffffff;
@@ -67,8 +67,21 @@ body {
     border-right: none;
     transition: var(--transition-pro);
     width: 260px !important;
+    min-width: 260px;
     box-shadow: 20px 0 60px rgba(0, 0, 0, 0.1) !important;
     z-index: 1001;
+}
+
+/* Sidebar Toggle - Collapsed State */
+.sidebar.toggled {
+    width: 0 !important;
+    min-width: 0 !important;
+    overflow: hidden;
+}
+
+.sidebar.toggled+#content-wrapper {
+    width: 100%;
+    margin-left: 0;
 }
 
 .sidebar-brand {

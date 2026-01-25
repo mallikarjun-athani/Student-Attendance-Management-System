@@ -22,9 +22,9 @@
     <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
       <i class="fa fa-bars"></i>
     </button>
-    <div class="ml-2 d-flex flex-column justify-content-center">
-      <h4 class="font-weight-bold mb-0" style="color: var(--text-primary); font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">Admin</span></h4>
-    </div>
+    <a href="index.php" class="topbar-brand-link d-flex flex-column justify-content-center text-decoration-none">
+      <h4 class="font-weight-bold mb-0" style="font-size: 1rem; letter-spacing: -0.5px; line-height: 1.2;"><span style="color: #6366f1; font-weight: 800;">SAMS</span> <span style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700;">Admin</span></h4>
+    </a>
   </div>
 
   <ul class="navbar-nav ml-auto align-items-center">
