@@ -145,7 +145,7 @@ body {
 }
 
 .sidebar-heading {
-    color: #475569 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
     font-weight: 700 !important;
     font-size: 0.7rem !important;
     text-transform: uppercase;
@@ -469,6 +469,19 @@ h6,
 
     #accordionSidebar.toggled {
         left: 0;
+    }
+
+    /* Fix: Ensure sidebar content is visible on mobile when toggled */
+    #accordionSidebar.toggled .nav-item,
+    #accordionSidebar.toggled .sidebar-heading,
+    #accordionSidebar.toggled hr {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    #accordionSidebar.toggled .sidebar-brand {
+        display: flex !important;
+        opacity: 1 !important;
     }
 
     /* Mobile Sidebar Overlay Backdrop */
