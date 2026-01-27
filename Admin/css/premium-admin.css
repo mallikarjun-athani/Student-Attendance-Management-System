@@ -458,125 +458,148 @@ h6,
 }
 
 /* --- Mobile Responsiveness --- */
+/* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
 
-    /* Critical: Remove overflow hidden from parents to prevent sidebar clipping on some devices */
+    /* Critical: Prevent any parent from clipping the sidebar */
+    html,
     body,
-    #wrapper {
+    #wrapper,
+    #content-wrapper {
         overflow-x: visible !important;
         overflow: visible !important;
+        position: relative !important;
     }
 
     #accordionSidebar {
         position: fixed !important;
         top: 0 !important;
-        left: -300px !important;
+        left: -320px !important;
         /* Move completely out of view */
         height: 100vh !important;
         width: 280px !important;
         margin: 0 !important;
-        border-radius: 0 30px 30px 0 !important;
-        z-index: 9999 !important;
-        /* Super high z-index */
-        box-shadow: 25px 0 50px rgba(0, 0, 0, 0.2) !important;
+        padding: 0 !important;
+        border-radius: 0 40px 40px 0 !important;
+        z-index: 10001 !important;
+        /* Above everything else */
+        box-shadow: 25px 0 60px rgba(0, 0, 0, 0.4) !important;
+        background: #1e1b4b !important;
+        /* Fallback solid color */
+        background: var(--sidebar-bg) !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
         -webkit-overflow-scrolling: touch !important;
         /* Smooth scroll for iOS */
         display: block !important;
-        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
         visibility: visible !important;
+        opacity: 1 !important;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    /* Use both toggled and sidebar-open classes for compatibility */
+    /* Target all possible toggle classes for maximum compatibility */
     #accordionSidebar.toggled,
     body.sidebar-toggled #accordionSidebar,
     body.sidebar-open #accordionSidebar {
         left: 0 !important;
     }
 
-    /* Force all text and icons to be visible and white on mobile */
-    #accordionSidebar.toggled *,
-    body.sidebar-toggled #accordionSidebar *,
-    body.sidebar-open #accordionSidebar * {
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: inherit;
-        /* Reset display to default child inheritance */
-    }
-
-    /* Specific targeting for sidebar items */
+    /* Force all text, icons, and items to be visible and white on mobile */
     #accordionSidebar .sidebar-brand,
-    #accordionSidebar .nav-item,
     #accordionSidebar .sidebar-heading,
+    #accordionSidebar .nav-item,
     #accordionSidebar .nav-link,
     #accordionSidebar .nav-link span,
+    #accordionSidebar .nav-link i,
+    #accordionSidebar .nav-icon-wrapper,
+    #accordionSidebar .sidebar-brand-text,
+    #accordionSidebar .sidebar-brand-icon,
     #accordionSidebar hr {
-        display: block !important;
-        color: #ffffff !important;
-        opacity: 1 !important;
+        display: flex !important;
         visibility: visible !important;
+        opacity: 1 !important;
+        color: #ffffff !important;
+        transform: none !important;
+        transition: none !important;
+        width: auto !important;
+        height: auto !important;
+        text-align: left !important;
+    }
+
+    /* Ensure list items are block level containers */
+    #accordionSidebar .nav-item {
+        display: block !important;
         width: 100% !important;
-        clear: both;
+        margin: 0 !important;
+        padding: 0 15px !important;
+        clear: both !important;
     }
 
     #accordionSidebar .nav-link {
-        padding: 1rem 1.5rem !important;
+        padding: 1rem !important;
         display: flex !important;
         align-items: center !important;
+        text-decoration: none !important;
     }
 
-    #accordionSidebar .nav-icon-wrapper {
-        display: flex !important;
-        margin-right: 12px !important;
-        width: 32px !important;
-        height: 32px !important;
-        opacity: 1 !important;
-        visibility: visible !important;
+    #accordionSidebar .nav-link span {
+        display: inline-block !important;
+        font-size: 0.95rem !important;
+        font-weight: 500 !important;
+        margin-left: 12px !important;
     }
 
     #accordionSidebar .sidebar-brand {
-        padding: 2rem 1.5rem !important;
-        display: flex !important;
+        padding: 2.5rem 1.5rem !important;
+        margin-bottom: 1rem !important;
         justify-content: flex-start !important;
-        align-items: center !important;
-        height: auto !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
     #accordionSidebar .sidebar-brand-text {
         display: block !important;
-        margin-left: 10px !important;
+        margin-left: 12px !important;
         font-size: 1.2rem !important;
+        font-weight: 800 !important;
+        letter-spacing: -0.5px;
     }
 
-    #accordionSidebar .sidebar-brand-icon i {
-        font-size: 2rem !important;
+    #accordionSidebar .sidebar-heading {
+        padding: 1.5rem 1.5rem 0.5rem !important;
+        font-size: 0.75rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.15rem !important;
+        opacity: 0.6 !important;
+        display: block !important;
     }
 
-    /* Mobile Sidebar Overlay Backdrop */
+    /* Mobile Sidebar Overlay */
     .sidebar-mask {
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.4);
-        backdrop-filter: blur(4px);
-        z-index: 1999;
+        background: rgba(15, 23, 42, 0.5);
+        backdrop-filter: blur(5px);
+        z-index: 10000;
+        /* Just below sidebar */
         cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
     body.sidebar-open .sidebar-mask,
     body.sidebar-toggled .sidebar-mask {
-        display: block;
+        display: block !important;
+        opacity: 1 !important;
     }
 
     .topbar {
-        padding: 0 1.25rem !important;
-        height: 65px !important;
-        background: rgba(255, 255, 255, 0.85) !important;
-        backdrop-filter: blur(25px);
+        padding: 0 1rem !important;
+        height: 60px !important;
+        background: #ffffff !important;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+        z-index: 1020 !important;
     }
 
     .container-fluid {
