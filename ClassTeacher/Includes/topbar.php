@@ -134,24 +134,15 @@
 
       // Toggle button syncs sidebar-open class for our custom CSS
       if(toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
-          // Sync our sidebar-open class with the toggle state
-          setTimeout(function() {
-            var sidebar = document.querySelector('.sidebar');
-            if(sidebar && !sidebar.classList.contains('toggled')) {
-              body.classList.add('sidebar-open');
-              // Force visibility via JS for problematic browsers
-              if(window.innerWidth <= 768) {
-                var items = sidebar.querySelectorAll('*');
-                for(var i=0; i<items.length; i++) {
-                   items[i].style.opacity = '1';
-                   items[i].style.visibility = 'visible';
-                }
-              }
-            } else {
-              body.classList.remove('sidebar-open');
-            }
-          }, 50);
+        toggleBtn.addEventListener('click', function(e) {
+          if(window.innerWidth <= 768) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Open the rock-solid modal menu on mobile
+            $('#mobileMenuModal').modal('show');
+            return false;
+          }
+          // On desktop, the original ruang-admin.js still handles side toggle
         });
       }
       

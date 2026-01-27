@@ -16,11 +16,14 @@
     <i class="fas fa-file-alt"></i>
     <span>Reports</span>
   </a>
-  <a href="#" class="mobile-nav-item" onclick="document.getElementById('sidebarToggleTop').click(); return false;">
+  <a href="#" class="mobile-nav-item" data-toggle="modal" data-target="#mobileMenuModal">
     <i class="fas fa-bars"></i>
     <span>Menu</span>
   </a>
 </nav>
+
+<?php include 'Includes/mobile-menu.php'; ?>
+
 
 <footer class="sticky-footer" style="background: #f8fafc; padding: 1.5rem 0; border-top: 1px solid #e2e8f0;">
         <div class="container my-auto">
