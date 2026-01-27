@@ -290,7 +290,6 @@ if (isset($_GET['status'])) {
                 </div>
               </div>
             </div>
-            </div>
           </div>
           <!--Row-->
 

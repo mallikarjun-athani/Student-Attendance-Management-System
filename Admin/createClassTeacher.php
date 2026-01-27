@@ -370,7 +370,6 @@ if(isset($_POST['save'])){
                 </div>
               </div>
             </div>
-            </div>
           </div>
           <!--Row-->
 
