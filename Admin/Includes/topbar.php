@@ -124,8 +124,8 @@
           if(window.innerWidth <= 768) {
             e.preventDefault();
             e.stopPropagation();
-            // Open the rock-solid modal menu on mobile
-            $('#mobileMenuModal').modal('show');
+            // Open the rock-solid custom overlay menu
+            toggleCustomMenu();
             return false;
           }
           // On desktop, the original ruang-admin.js still handles side toggle

@@ -460,26 +460,25 @@ h6,
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
 
-    /* Hide the glitchy sidebar completely on mobile */
-    #accordionSidebar {
+    /* Hide the original glitchy sidebar completely on mobile */
+    #accordionSidebar,
+    .sidebar,
+    .sidebar-mask {
         display: none !important;
         visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
     }
 
-    /* Adjust main content wrapper when sidebar is hidden */
+    /* Force content to take full width */
     #content-wrapper {
         margin-left: 0 !important;
         width: 100% !important;
     }
 
     body {
-        padding-bottom: 75px !important;
+        padding-bottom: 80px !important;
         /* Space for bottom nav */
-    }
-
-    /* Mobile Sidebar Overlay (Deprecated in favor of Modal) */
-    .sidebar-mask {
-        display: none !important;
     }
 
     .topbar {

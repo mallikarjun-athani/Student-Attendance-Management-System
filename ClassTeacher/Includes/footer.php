@@ -16,7 +16,7 @@
     <i class="fas fa-file-alt"></i>
     <span>Reports</span>
   </a>
-  <a href="#" class="mobile-nav-item" data-toggle="modal" data-target="#mobileMenuModal">
+  <a href="#" class="mobile-nav-item" onclick="toggleCustomMenu(); return false;">
     <i class="fas fa-bars"></i>
     <span>Menu</span>
   </a>

@@ -1,72 +1,143 @@
 <?php
-// Mobile Full Screen Overlay Menu
+// Rock-Solid Pure CSS Mobile Overlay (No Bootstrap Modal)
 ?>
-<div class="modal fade" id="mobileMenuModal" tabindex="-1" role="dialog" aria-labelledby="mobileMenuModalLabel" aria-hidden="true" style="padding-right: 0px !important;">
-    <div class="modal-dialog modal-fullscreen m-0" role="document" style="max-width: 100%; margin: 0; min-height: 100vh;">
-        <div class="modal-content border-0" style="border-radius: 0; background: var(--sidebar-bg); min-height: 100vh;">
-            <div class="modal-header border-0 pb-0" style="padding: 1.5rem 1.5rem 0.5rem 1.5rem;">
-                <div class="sidebar-brand d-flex align-items-center">
-                    <div class="sidebar-brand-icon">
-                        <i class="fas fa-user-shield fa-2x brand-icon-grad"></i>
-                    </div>
-                    <div class="sidebar-brand-text ml-2"><span class="brand-text-primary">SAMS</span> <span class="brand-text-grad">ADMIN</span></div>
-                </div>
-                <button type="button" class="close text-white opacity-100" data-dismiss="modal" aria-label="Close" style="font-size: 2.5rem; outline: none;">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-4">
-                <div class="sidebar-heading text-white-50 small font-weight-bold text-uppercase mb-3" style="letter-spacing: 0.1rem;">Main Menu</div>
-                <div class="list-group list-group-flush">
-                    <a href="index.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2 <?php echo ($currentPage == 'index.php') ? 'bg-white-10' : ''; ?>">
-                        <i class="fas fa-fw fa-tachometer-alt mr-3"></i> <span>Dashboard</span>
-                    </a>
-                </div>
-
-                <div class="sidebar-heading text-white-50 small font-weight-bold text-uppercase mt-4 mb-3" style="letter-spacing: 0.1rem;">Operations</div>
-                <div class="list-group list-group-flush">
-                    <a href="createClass.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2">
-                        <i class="fas fa-fw fa-university mr-3"></i> <span>Classes</span>
-                    </a>
-                    <a href="createClassArms.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2">
-                        <i class="fas fa-fw fa-layer-group mr-3"></i> <span>Semesters</span>
-                    </a>
-                    <a href="createClassTeacher.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2">
-                        <i class="fas fa-fw fa-chalkboard-teacher mr-3"></i> <span>Teachers</span>
-                    </a>
-                    <a href="createStudents.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2">
-                        <i class="fas fa-fw fa-user-graduate mr-3"></i> <span>Students</span>
-                    </a>
-                    <a href="createSessionTerm.php" class="list-group-item list-group-item-action bg-transparent text-white border-0 py-3 rounded-xl mb-2">
-                        <i class="fas fa-fw fa-calendar-alt mr-3"></i> <span>Terms</span>
-                    </a>
-                </div>
-                
-                <div class="mt-5 pt-5 border-top border-white-10">
-                   <a href="logout.php" class="btn btn-danger btn-block py-3 rounded-pill shadow-lg">
-                       <i class="fas fa-sign-out-alt mr-2"></i> Log Out
-                   </a>
-                </div>
-            </div>
+<div id="customMobileMenu" class="custom-mobile-menu">
+    <div class="menu-header">
+        <div class="brand">
+            <i class="fas fa-user-shield"></i>
+            <span>SAMS ADMIN</span>
+        </div>
+        <button onclick="toggleCustomMenu()" class="close-btn">&times;</button>
+    </div>
+    
+    <div class="menu-body">
+        <div class="menu-section">MAIN MENU</div>
+        <a href="index.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        
+        <div class="menu-section">OPERATIONS</div>
+        <a href="createClass.php" class="menu-item"><i class="fas fa-university"></i> Classes</a>
+        <a href="createClassArms.php" class="menu-item"><i class="fas fa-layer-group"></i> Semesters</a>
+        <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
+        <a href="createStudents.php" class="menu-item"><i class="fas fa-user-graduate"></i> Students</a>
+        <a href="createSessionTerm.php" class="menu-item"><i class="fas fa-calendar-alt"></i> Terms</a>
+        
+        <div class="menu-footer">
+            <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
 </div>
 
 <style>
-    #mobileMenuModal .modal-content {
-        animation: slideUp 0.3s ease-out;
-    }
-    @keyframes slideUp {
-        from { transform: translateY(100vh); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    .bg-white-10 {
-        background: rgba(255, 255, 255, 0.1) !important;
-    }
-    .rounded-xl {
-        border-radius: 12px !important;
-    }
-    .border-white-10 {
-        border-color: rgba(255,255,255,0.1) !important;
-    }
+.custom-mobile-menu {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #0f172a !important; /* Deep Navy Blue Solid */
+    z-index: 100000 !important;
+    display: none;
+    flex-direction: column;
+    padding: 20px !important;
+    overflow-y: auto !important;
+}
+
+.custom-mobile-menu.active {
+    display: flex !important;
+}
+
+.menu-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    margin-bottom: 20px !important;
+}
+
+.menu-header .brand {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+    font-weight: 800 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.menu-header .brand i {
+    margin-right: 15px !important;
+    color: #6366f1 !important;
+}
+
+.close-btn {
+    background: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-size: 3rem !important;
+    line-height: 1 !important;
+    padding: 0 10px !important;
+}
+
+.menu-section {
+    color: rgba(255,255,255,0.5) !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.1rem !important;
+    margin: 25px 0 15px 0 !important;
+}
+
+.menu-item {
+    display: flex !important;
+    align-items: center !important;
+    padding: 18px 20px !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    border-radius: 12px !important;
+    margin-bottom: 10px !important;
+    font-size: 1.1rem !important;
+    font-weight: 500 !important;
+    border: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+.menu-item i {
+    width: 30px !important;
+    margin-right: 15px !important;
+    color: #8b5cf6 !important;
+}
+
+.menu-footer {
+    margin-top: 40px !important;
+    padding-bottom: 40px !important;
+}
+
+.logout-btn {
+    display: block !important;
+    width: 100% !important;
+    padding: 18px !important;
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    text-decoration: none !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+}
+
+/* Ensure no text is hidden */
+.custom-mobile-menu * {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 </style>
+
+<script>
+function toggleCustomMenu() {
+    var menu = document.getElementById('customMobileMenu');
+    if (menu.classList.contains('active')) {
+        menu.classList.remove('active');
+        document.body.style.overflow = '';
+    } else {
+        menu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+</script>
