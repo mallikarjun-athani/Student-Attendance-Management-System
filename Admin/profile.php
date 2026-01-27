@@ -76,7 +76,7 @@ if (isset($_POST['updateProfile'])) {
                         <?php
                         $photoPath = 'img/user-icn.png';
                         $hasCustomPhoto = false;
-                        $dir = __DIR__ . '/../uploads';
+                        $dir = __DIR__ . '/uploads';
                         $base = 'admin_' . $userId;
                         foreach (['jpg','png','jpeg','webp'] as $ext) {
                           if (file_exists($dir . '/' . $base . '.' . $ext)) {
