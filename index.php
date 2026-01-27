@@ -245,11 +245,15 @@ ob_start();
 
             if($num > 0){
                 $_SESSION['userId'] = $rows['Id'];
+                $_SESSION['userType'] = 'Admin';
                 $_SESSION['firstName'] = $rows['firstName'];
                 $_SESSION['lastName'] = $rows['lastName'];
                 $_SESSION['emailAddress'] = $rows['emailAddress'];
+                
+                $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'Admin/index.php';
+                unset($_SESSION['redirect_url']);
                 session_write_close();
-                header('Location: Admin/index.php');
+                header('Location: ' . $redirectUrl);
                 exit;
             } else {
                 $errorMsg = "Invalid Email or Password!";
@@ -262,13 +266,17 @@ ob_start();
 
             if($num > 0){
                 $_SESSION['userId'] = $rows['Id'];
+                $_SESSION['userType'] = 'Teacher';
                 $_SESSION['firstName'] = $rows['firstName'];
                 $_SESSION['lastName'] = $rows['lastName'];
                 $_SESSION['emailAddress'] = $rows['emailAddress'];
                 $_SESSION['classId'] = $rows['classId'];
                 $_SESSION['classArmId'] = $rows['classArmId'];
+
+                $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'ClassTeacher/index.php';
+                unset($_SESSION['redirect_url']);
                 session_write_close();
-                header('Location: ClassTeacher/index.php');
+                header('Location: ' . $redirectUrl);
                 exit;
             } else {
                 $errorMsg = "Invalid Email or Password!";

@@ -1,13 +1,24 @@
-<?php
-include '../Includes/dbcon.php';
+include '../Includes/session.php';
+// Student-specific role verification
+if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'Student') {
+  header('Location: login.php');
+  exit;
+}
 
 $admission = isset($_GET['adm']) ? trim($_GET['adm']) : '';
 $sig = isset($_GET['sig']) ? trim($_GET['sig']) : '';
 
-if ($admission === '' || $sig === '') {
-  http_response_code(400);
-  echo 'Invalid link.';
-  exit;
+// Verify that the logged-in student is only accessing THEIR own record
+$stmtCheck = $conn->prepare("SELECT admissionNumber FROM tblstudents WHERE Id = ?");
+$stmtCheck->bind_param("i", $_SESSION['userId']);
+$stmtCheck->execute();
+$resCheck = $stmtCheck->get_result();
+$rowCheck = $resCheck->fetch_assoc();
+$loggedInAdm = $rowCheck['admissionNumber'] ?? '';
+
+if ($admission !== $loggedInAdm) {
+    echo "<div style='color:red; padding:20px; font-weight:bold;'>Access Denied: You are not authorized to view this record.</div>";
+    exit;
 }
 
 $qrSecret = 'AMS_QR_SECRET_2025';

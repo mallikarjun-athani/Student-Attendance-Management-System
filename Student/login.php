@@ -39,7 +39,10 @@ if (isset($_POST['login'])) {
         $_SESSION['classId'] = $row['classId'];
         $_SESSION['classArmId'] = $row['classArmId'];
 
-        header('Location: index.php');
+        $redirectUrl = isset($_SESSION['redirect_url']) ? $_SESSION['redirect_url'] : 'index.php';
+        unset($_SESSION['redirect_url']);
+        session_write_close();
+        header('Location: ' . $redirectUrl);
         exit;
       }
       $statusMsg = "<div class='alert' role='alert'>Invalid Admission Number/Password!</div>";

@@ -1,11 +1,6 @@
-<?php
-include '../Includes/dbcon.php';
-
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
-
-if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'Student' || !isset($_SESSION['studentId'])) {
+include '../Includes/session.php';
+// Student-specific role verification
+if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'Student') {
   header('Location: login.php');
   exit;
 }
