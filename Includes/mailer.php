@@ -7,7 +7,7 @@ require_once __DIR__ . '/../vendor/phpmailer/src/Exception.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/PHPMailer.php';
 require_once __DIR__ . '/../vendor/phpmailer/src/SMTP.php';
 
-function sendSmtpMail($toEmail, $toName, $subject, $bodyText) {
+function sendSmtpMail($toEmail, $toName, $subject, $bodyText, $isHtml = false) {
   $cfgPath = __DIR__ . '/mailer_config.php';
   if (!file_exists($cfgPath)) {
     return [false, 'Mailer config missing: Includes/mailer_config.php'];
@@ -58,7 +58,7 @@ function sendSmtpMail($toEmail, $toName, $subject, $bodyText) {
     $mail->setFrom($cfg['from_email'], $cfg['from_name']);
     $mail->addAddress($toEmail, $toName);
 
-    $mail->isHTML(false);
+    $mail->isHTML($isHtml);
     $mail->Subject = $subject;
     $mail->Body = $bodyText;
 
