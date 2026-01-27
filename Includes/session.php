@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
   session_start(); 
 }
+ob_start(); // Ensure output buffering is on to prevent headers already sent errors
 
 // Role-based protection logic
 $currentDir = basename(dirname($_SERVER['PHP_SELF']));
@@ -32,16 +33,12 @@ if (!$isAuthorized) {
     exit;
 }
 
-// $expiry = 1800 ;//session expiry required after 30 mins
-// if (isset($_SESSION['LAST']) && (time() - $_SESSION['LAST'] > $expiry)) {
-
-//     session_unset();
-//     session_destroy();
-//     echo "<script type = \"text/javascript\">
-//           window.location = (\"../index.php\");
-//           </script>";
-
-// }
-// $_SESSION['LAST'] = time();
-    
-?>
+$expiry = 1800 ;//session expiry required after 30 mins
+if (isset($_SESSION['LAST']) && (time() - $_SESSION['LAST'] > $expiry)) {
+    session_unset();
+    session_destroy();
+    echo "<script type = \"text/javascript\">
+          window.location = (\"../index.php\");
+          </script>";
+}
+$_SESSION['LAST'] = time();

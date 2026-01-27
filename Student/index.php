@@ -1,3 +1,4 @@
+<?php
 include '../Includes/session.php';
 // Student-specific role verification
 if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'Student') {

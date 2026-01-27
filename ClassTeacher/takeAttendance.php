@@ -1,11 +1,7 @@
-
 <?php 
 error_reporting(0);
 include '../Includes/dbcon.php';
 include '../Includes/session.php';
-
-header('Location: index.php');
-exit;
 
     $query = "SELECT tblclass.className,tblclasssemister.semisterName 
     FROM tblclassteacher
