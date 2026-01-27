@@ -167,7 +167,17 @@ if (isset($_POST['updateProfile'])) {
         var formData = new FormData();
         var files = $(this)[0].files;
         if (files.length > 0) {
-          formData.append('photo', files[0]);
+          var file = files[0];
+          
+          // Validate Size (2MB)
+          if (file.size > 2 * 1024 * 1024) {
+            if (window.showToast) window.showToast('File too large! Max 2MB.', 'danger');
+            else alert('File too large! Max 2MB.');
+            $(this).val('');
+            return;
+          }
+
+          formData.append('photo', file);
           $.ajax({
             url: 'uploadProfilePhoto.php',
             type: 'POST',
@@ -179,7 +189,8 @@ if (isset($_POST['updateProfile'])) {
                 $('#profilePreview').attr('src', response.url);
                 if (window.showToast) window.showToast('Profile photo updated!', 'success');
               } else {
-                alert(response.message);
+                if (window.showToast) window.showToast(response.message, 'danger');
+                else alert(response.message);
               }
             }
           });

@@ -388,9 +388,11 @@ if(isset($_POST['save'])){
                       <div class="form-group col-12 col-md-6 mb-3">
                         <label class="form-control-label">Upload Photo<span class="text-danger ml-2">*</span></label>
                         <input type="file" class="form-control" name="studentPhoto" accept="image/*" id="studentPhotoInput" oninvalid="this.setCustomValidity('Upload Photo is required.')" oninput="this.setCustomValidity('')">
+                        <small class="form-text text-muted">Max file size: 2MB (JPG, PNG, WEBP)</small>
+                        <div id="fileSizeError" class="text-danger small mt-1" style="display:none;"></div>
                         <div class="mt-2">
                              <?php if(isset($row['photo']) && $row['photo'] != ''): ?>
-                                <img id="imagePreview" src="../<?php echo $row['photo']; ?>" alt="Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
+                                <img id="imagePreview" src="../<?php echo $rows['photo'] ?? $row['photo']; ?>" alt="Preview" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                              <?php else: ?>
                                 <img id="imagePreview" src="#" alt="Preview" style="display:none; width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">
                              <?php endif; ?>
@@ -712,12 +714,25 @@ if(isset($_POST['save'])){
       updateEmailUi();
 
       $('#studentPhotoInput').on('change', function (e) {
-        if (e.target.files && e.target.files[0]) {
+        var file = e.target.files[0];
+        var $error = $('#fileSizeError');
+        var $preview = $('#imagePreview');
+        
+        if (file) {
+          // Validate Size (2MB = 2097152 bytes)
+          if (file.size > 2 * 1024 * 1024) {
+             $error.text('File is too large! Please choose an image smaller than 2MB.').show();
+             $(this).val(''); // Clear the input
+             $preview.hide();
+             return;
+          }
+          
+          $error.hide();
           var reader = new FileReader();
           reader.onload = function(re) {
-            $('#imagePreview').attr('src', re.target.result).fadeIn();
+            $preview.attr('src', re.target.result).fadeIn();
           }
-          reader.readAsDataURL(e.target.files[0]);
+          reader.readAsDataURL(file);
         }
       });
     });
