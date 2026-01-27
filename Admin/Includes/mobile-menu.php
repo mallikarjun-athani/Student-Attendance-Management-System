@@ -15,11 +15,11 @@
         <a href="index.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
         
         <div class="menu-section">ACADEMIC</div>
-        <a href="createClass.php" class="menu-item"><i class="fas fa-university"></i> <span>Classes</span></a>
+        <a href="createClass.php" class="menu-item"><i class="fas fa-university"></i> <span>Departments</span></a>
         <a href="createClassArms.php" class="menu-item"><i class="fas fa-layer-group"></i> <span>Semesters</span></a>
         
         <div class="menu-section">STAFF & STUDENTS</div>
-        <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> <span>Teachers</span></a>
+        <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> <span>Department Teachers</span></a>
         <a href="createStudents.php" class="menu-item"><i class="fas fa-user-graduate"></i> <span>Manage Students</span></a>
         
         <div class="menu-section">SETTINGS</div>

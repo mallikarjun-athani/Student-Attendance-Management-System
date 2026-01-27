@@ -501,6 +501,11 @@ h6,
         top: 0 !important;
     }
 
+    /* Hide redundant top toggle on mobile since we have bottom nav menu */
+    #sidebarToggleTop {
+        display: none !important;
+    }
+
     .container-fluid {
         padding: 1.5rem 1.25rem !important;
     }

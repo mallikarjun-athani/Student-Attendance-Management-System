@@ -6,11 +6,11 @@
   </a>
   <a href="createClass.php" class="mobile-nav-item <?php echo ($currentPage == 'createClass.php' || $currentPage == 'createClassArms.php') ? 'active' : ''; ?>">
     <i class="fas fa-university"></i>
-    <span>Academic</span>
+    <span>Dept</span>
   </a>
   <a href="createClassTeacher.php" class="mobile-nav-item <?php echo ($currentPage == 'createClassTeacher.php') ? 'active' : ''; ?>">
     <i class="fas fa-chalkboard-teacher"></i>
-    <span>Teachers</span>
+    <span>Staff</span>
   </a>
   <a href="createStudents.php" class="mobile-nav-item <?php echo ($currentPage == 'createStudents.php') ? 'active' : ''; ?>">
     <i class="fas fa-user-graduate"></i>

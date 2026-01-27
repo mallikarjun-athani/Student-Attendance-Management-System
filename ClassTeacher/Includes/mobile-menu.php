@@ -21,7 +21,7 @@
         <a href="generateQrCodes.php" class="menu-item"><i class="fas fa-qrcode"></i> <span>QR Codes</span></a>
         
         <div class="menu-section">ATTENDANCE RECORDS</div>
-        <a href="viewAttendance.php" class="menu-item"><i class="fas fa-folder-open"></i> <span>Class Records</span></a>
+        <a href="viewAttendance.php" class="menu-item"><i class="fas fa-folder-open"></i> <span>Department Records</span></a>
         <a href="viewStudentAttendance.php" class="menu-item"><i class="fas fa-user-check"></i> <span>Student Records</span></a>
         <a href="todayReport.php" class="menu-item"><i class="fas fa-clipboard-list"></i> <span>Today's Report</span></a>
         
