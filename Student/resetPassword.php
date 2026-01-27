@@ -1,9 +1,4 @@
 <?php
-// Enable error reporting to diagnose 500 error
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include '../Includes/dbcon.php';
 
 if (session_status() === PHP_SESSION_NONE) {

@@ -1,9 +1,4 @@
 <?php
-// Enable error reporting to diagnose 500 error
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 include '../Includes/dbcon.php';
 include '../Includes/mailer.php';
 
@@ -52,7 +47,8 @@ if (isset($_POST['reset_password'])) {
       $expires->add(new DateInterval('PT15M')); // 15 minute expiry
 
       $stmt_insert = $conn->prepare("INSERT INTO tblpassword_resets (email, token, expires_at) VALUES (?, ?, ?)");
-      $stmt_insert->bind_param('sss', $email, $token, $expires->format('Y-m-d H:i:s'));
+      $formattedExpires = $expires->format('Y-m-d H:i:s');
+      $stmt_insert->bind_param('sss', $email, $token, $formattedExpires);
       
       if ($stmt_insert->execute()) {
         $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
