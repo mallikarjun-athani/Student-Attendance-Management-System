@@ -39,12 +39,38 @@ if (isset($_POST['updateProfile'])) {
     }
     $stmt->close();
 }
+
+// Handle Password Change
+if (isset($_POST['changePassword'])) {
+    $currentPass = $_POST['currentPassword'];
+    $newPass = $_POST['newPassword'];
+    $confirmPass = $_POST['confirmPassword'];
+
+    $currentPassHashed = md5($currentPass);
+
+    if ($currentPassHashed != $teacher['password']) {
+        $statusMsg = "<div class='alert alert-danger' data-toast='1'>Current password is incorrect!</div>";
+    } elseif ($newPass != $confirmPass) {
+        $statusMsg = "<div class='alert alert-danger' data-toast='1'>New passwords do not match!</div>";
+    } else {
+        $newPassHashed = md5($newPass);
+        $stmt = $conn->prepare("UPDATE tblclassteacher SET password=?, plainPassword=? WHERE Id=?");
+        $stmt->bind_param('ssi', $newPassHashed, $newPass, $userId);
+        if ($stmt->execute()) {
+            $statusMsg = "<div class='alert alert-success' data-toast='1'>Password updated successfully!</div>";
+            $teacher['password'] = $newPassHashed; // update local cache
+        } else {
+            $statusMsg = "<div class='alert alert-danger' data-toast='1'>Failed to update password.</div>";
+        }
+        $stmt->close();
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'Includes/header.php'; ?>
-<body id="page-top">
+<body id="page-top" class="animate-fade-up">
   <div id="wrapper">
     <?php include "Includes/sidebar.php"; ?>
     <div id="content-wrapper" class="d-flex flex-column">
@@ -63,51 +89,59 @@ if (isset($_POST['updateProfile'])) {
           <div class="row">
             <div class="col-lg-4">
               <!-- Profile Photo Card -->
-              <div class="card mb-4 text-center">
-                <div class="card-body">
-                  <div class="position-relative d-inline-block mb-3">
+              <div class="card mb-4 text-center border-0 shadow-sm" style="border-radius: 20px;">
+                <div class="card-body py-5">
+                  <div class="position-relative d-inline-block mb-4">
                     <?php
-                    // Assume teacher photo path is stored in a column 'photo' if added, 
-                    // or just check if it exists in uploads folder as teacher_{id}.jpg/png
                     $photoPath = 'img/user-icn.png'; // default
                     $possibleExts = ['jpg', 'png', 'webp'];
+                    $hasCustomPhoto = false;
                     foreach ($possibleExts as $ext) {
                         if (file_exists("uploads/teacher_{$userId}.{$ext}")) {
                             $photoPath = "uploads/teacher_{$userId}.{$ext}?v=".time();
+                            $hasCustomPhoto = true;
                             break;
                         }
                     }
                     ?>
-                    <img id="profilePreview" src="<?php echo $photoPath; ?>" class="img-profile rounded-circle-xl" style="width: 150px; height: 150px; border: 5px solid var(--primary-glow); object-fit: cover;">
-                    <div class="upload-btn-wrapper" style="position: absolute; bottom: 5px; right: 5px;">
-                      <button class="btn btn-sm btn-primary rounded-circle shadow-sm" style="width: 40px; height: 40px;"><i class="fas fa-camera"></i></button>
-                      <input type="file" id="profilePhotoInput" accept="image/*" style="position: absolute; top: 0; left: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;">
+                    <div class="profile-img-container" style="position: relative;">
+                        <img id="profilePreview" src="<?php echo $photoPath; ?>" class="img-profile rounded-circle" style="width: 160px; height: 160px; border: 6px solid #f8fafc; box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: cover;">
+                        <div class="upload-options" style="position: absolute; bottom: 5px; right: 5px; display: flex; gap: 8px;">
+                            <button class="btn btn-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" onclick="document.getElementById('profilePhotoInput').click()" title="Upload New Photo">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                            <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+                            
+                            <button id="removePhotoBtn" class="btn btn-danger rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; <?php echo $hasCustomPhoto ? '' : 'display:none;'; ?>" title="Remove Photo">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
                     </div>
                   </div>
-                  <h5 class="font-weight-bold mb-0"><?php echo htmlspecialchars($teacher['firstName']." ".$teacher['lastName']); ?></h5>
-                  <p class="text-muted small mb-3">Class Teacher</p>
-                  <div class="badge-pro bg-soft-blue text-primary px-3 py-2" style="border-radius: 12px; font-weight: 700;"><?php echo htmlspecialchars($teacher['className'] ?? 'N/A'); ?></div>
+                  <h4 class="font-weight-bold text-dark mb-1"><?php echo htmlspecialchars($teacher['firstName']." ".$teacher['lastName']); ?></h4>
+                  <p class="text-muted mb-3"><?php echo htmlspecialchars($teacher['emailAddress']); ?></p>
+                  <div class="badge-pro bg-primary text-white px-4 py-2 shadow-sm" style="border-radius: 12px; font-weight: 700;">Department Teacher</div>
                 </div>
               </div>
 
-              <!-- Quick Stats Card -->
-              <div class="card mb-4 overflow-hidden">
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Academic Assignment</h6>
+              <!-- Assignment Info -->
+              <div class="card mb-4 border-0 shadow-sm overflow-hidden" style="border-radius: 20px;">
+                <div class="card-header bg-white border-0 py-4">
+                    <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-briefcase mr-2 text-primary"></i> Current Assignment</h6>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="bg-soft-purple text-purple rounded-lg p-3 mr-3"><i class="fas fa-university"></i></div>
+                <div class="card-body pt-0">
+                    <div class="d-flex align-items-start mb-4">
+                        <div class="bg-soft-indigo text-indigo flex-shrink-0 rounded-xl p-3 mr-3" style="background: rgba(99, 102, 241, 0.1); color: #6366f1; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-university"></i></div>
                         <div>
-                            <div class="text-xs font-weight-bold text-uppercase text-muted">Assigned Class</div>
-                            <div class="h6 mb-0 font-weight-bold"><?php echo htmlspecialchars($teacher['className'] ?? 'None'); ?></div>
+                            <div class="text-xs font-weight-bold text-uppercase text-muted mb-1" style="letter-spacing: 0.5px;">Department</div>
+                            <div class="h6 mb-0 font-weight-bold text-dark"><?php echo htmlspecialchars($teacher['className'] ?? 'None'); ?></div>
                         </div>
                     </div>
-                    <div class="d-flex align-items-center">
-                        <div class="bg-soft-green text-green rounded-lg p-3 mr-3"><i class="fas fa-layer-group"></i></div>
+                    <div class="d-flex align-items-start">
+                        <div class="bg-soft-orange text-orange flex-shrink-0 rounded-xl p-3 mr-3" style="background: rgba(249, 115, 22, 0.1); color: #f97316; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;"><i class="fas fa-calendar-alt"></i></div>
                         <div>
-                            <div class="text-xs font-weight-bold text-uppercase text-muted">Current Semester</div>
-                            <div class="h6 mb-0 font-weight-bold"><?php echo htmlspecialchars($teacher['semisterName'] ?? 'None'); ?></div>
+                            <div class="text-xs font-weight-bold text-uppercase text-muted mb-1" style="letter-spacing: 0.5px;">Semester</div>
+                            <div class="h6 mb-0 font-weight-bold text-dark"><?php echo htmlspecialchars($teacher['semisterName'] ?? 'None'); ?></div>
                         </div>
                     </div>
                 </div>
@@ -115,35 +149,86 @@ if (isset($_POST['updateProfile'])) {
             </div>
 
             <div class="col-lg-8">
-              <div class="card mb-4 shadow-sm border-0">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Update Profile Information</h6>
+              <!-- Info Update Card -->
+              <div class="card mb-4 border-0 shadow-sm" style="border-radius: 20px;">
+                <div class="card-header bg-white border-0 py-4 d-flex align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-user-edit mr-2 text-primary"></i> Personal Information</h6>
                 </div>
                 <div class="card-body">
-                  <?php echo $statusMsg; ?>
+                  <?php if(isset($_POST['updateProfile'])) echo $statusMsg; ?>
                   <form method="post">
-                    <div class="form-row">
-                      <div class="form-group col-md-6 mb-3">
-                        <label class="form-control-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" value="<?php echo htmlspecialchars($teacher['firstName']); ?>" required>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold small text-uppercase text-muted">First Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-user text-muted"></i></span>
+                            </div>
+                            <input type="text" class="form-control bg-light border-left-0" style="border-radius: 0 12px 12px 0; height: 48px;" name="firstName" value="<?php echo htmlspecialchars($teacher['firstName']); ?>" required>
+                        </div>
                       </div>
-                      <div class="form-group col-md-6 mb-3">
-                        <label class="form-control-label">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value="<?php echo htmlspecialchars($teacher['lastName']); ?>" required>
+                      <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold small text-uppercase text-muted">Last Name</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-user text-muted"></i></span>
+                            </div>
+                            <input type="text" class="form-control bg-light border-left-0" style="border-radius: 0 12px 12px 0; height: 48px;" name="lastName" value="<?php echo htmlspecialchars($teacher['lastName']); ?>" required>
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group mb-3">
-                      <label class="form-control-label">Email Address</label>
-                      <input type="email" class="form-control" name="emailAddress" value="<?php echo htmlspecialchars($teacher['emailAddress']); ?>" required>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold small text-uppercase text-muted">Email Address</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-envelope text-muted"></i></span>
+                            </div>
+                            <input type="email" class="form-control bg-light border-left-0" style="border-radius: 0 12px 12px 0; height: 48px;" name="emailAddress" value="<?php echo htmlspecialchars($teacher['emailAddress']); ?>" required>
+                        </div>
+                      </div>
+                      <div class="col-md-6 mb-4">
+                        <label class="font-weight-bold small text-uppercase text-muted">Phone Number</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text bg-light border-right-0" style="border-radius: 12px 0 0 12px;"><i class="fas fa-phone text-muted"></i></span>
+                            </div>
+                            <input type="text" class="form-control bg-light border-left-0" style="border-radius: 0 12px 12px 0; height: 48px;" name="phoneNo" value="<?php echo htmlspecialchars($teacher['phoneNo']); ?>" required>
+                        </div>
+                      </div>
                     </div>
-                    <div class="form-group mb-4">
-                      <label class="form-control-label">Phone Number</label>
-                      <input type="text" class="form-control" name="phoneNo" value="<?php echo htmlspecialchars($teacher['phoneNo']); ?>" required>
-                    </div>
-                    <button type="submit" name="updateProfile" class="btn btn-primary px-5 py-3">Save Changes</button>
+                    <button type="submit" name="updateProfile" class="btn btn-primary px-5 font-weight-bold" style="border-radius: 14px; height: 50px;">Update Information</button>
                   </form>
                 </div>
               </div>
+
+              <!-- Password Update Card -->
+              <div class="card mb-4 border-0 shadow-sm" style="border-radius: 20px;">
+                <div class="card-header bg-white border-0 py-4">
+                  <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-lock mr-2 text-primary"></i> Change Password</h6>
+                </div>
+                <div class="card-body">
+                  <?php if(isset($_POST['changePassword'])) echo $statusMsg; ?>
+                  <form method="post">
+                    <div class="mb-3">
+                      <label class="font-weight-bold small text-uppercase text-muted">Current Password</label>
+                      <input type="password" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="currentPassword" required placeholder="Enter current password">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="font-weight-bold small text-uppercase text-muted">New Password</label>
+                            <input type="password" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="newPassword" required placeholder="New password">
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="font-weight-bold small text-uppercase text-muted">Confirm New Password</label>
+                            <input type="password" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="confirmPassword" required placeholder="Confirm new password">
+                        </div>
+                    </div>
+                    <button type="submit" name="changePassword" class="btn btn-indigo px-5 font-weight-bold" style="background: #6366f1; color: white; border-radius: 14px; height: 50px;">Security Update</button>
+                  </form>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -163,16 +248,14 @@ if (isset($_POST['updateProfile'])) {
 
   <script>
     $(document).ready(function() {
+      // Photo Upload handling
       $('#profilePhotoInput').on('change', function() {
         var formData = new FormData();
         var files = $(this)[0].files;
         if (files.length > 0) {
           var file = files[0];
-          
-          // Validate Size (2MB)
           if (file.size > 2 * 1024 * 1024) {
-            if (window.showToast) window.showToast('File too large! Max 2MB.', 'danger');
-            else alert('File too large! Max 2MB.');
+            alert('File too large! Max 2MB.');
             $(this).val('');
             return;
           }
@@ -186,15 +269,31 @@ if (isset($_POST['updateProfile'])) {
             processData: false,
             success: function(response) {
               if (response.ok) {
-                $('#profilePreview').attr('src', response.url);
-                if (window.showToast) window.showToast('Profile photo updated!', 'success');
+                location.reload(); // Refresh to update all UI parts
               } else {
-                if (window.showToast) window.showToast(response.message, 'danger');
-                else alert(response.message);
+                alert(response.message);
               }
             }
           });
         }
+      });
+
+      // Photo Removal handling
+      $('#removePhotoBtn').on('click', function() {
+        if(!confirm('Are you sure you want to remove your profile photo?')) return;
+        
+        $.ajax({
+          url: 'uploadProfilePhoto.php',
+          type: 'POST',
+          data: { action: 'remove' },
+          success: function(response) {
+            if (response.ok) {
+              location.reload();
+            } else {
+              alert(response.message);
+            }
+          }
+        });
       });
     });
   </script>

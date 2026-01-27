@@ -57,13 +57,6 @@
           </div>
           <span>My Profile</span>
         </a>
-        <input type="file" id="teacherAvatarInput" accept="image/*" style="display:none;">
-        <label class="dropdown-item py-2 d-flex align-items-center" for="teacherAvatarInput" style="border-radius: 8px; color: var(--text-primary); font-weight: 500; cursor:pointer; margin-bottom: 2px;">
-          <div class="mr-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background: rgba(78, 102, 241, 0.1); border-radius: 8px;">
-            <i class="fas fa-camera fa-sm text-primary"></i>
-          </div>
-          <span>Update Photo</span>
-        </label>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item py-2 d-flex align-items-center" href="logout.php" style="border-radius: 8px; color: var(--text-primary); font-weight: 500;">
           <div class="mr-3 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; background: rgba(239, 68, 68, 0.1); border-radius: 8px;">
@@ -181,50 +174,3 @@
   })();
 </script>
 
-<script>
-  (function(){
-    function ready(fn){
-      if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',fn);}else{fn();}
-    }
-    ready(function(){
-      var img = document.getElementById('teacherAvatarImg');
-      var input = document.getElementById('teacherAvatarInput');
-      if(!img || !input) return;
-
-      img.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        input.click();
-      });
-
-      input.addEventListener('change', function(){
-        if(!input.files || !input.files[0]) return;
-        var file = input.files[0];
-
-        var form = new FormData();
-        form.append('photo', file);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'uploadProfilePhoto.php', true);
-        xhr.onload = function(){
-          try {
-            var res = JSON.parse(xhr.responseText || '{}');
-            if (xhr.status >= 200 && xhr.status < 300 && res.ok && res.url) {
-              img.src = res.url;
-            } else {
-              alert((res && res.message) ? res.message : 'Upload failed.');
-            }
-          } catch (e) {
-            alert('Upload failed.');
-          }
-          input.value = '';
-        };
-        xhr.onerror = function(){
-          alert('Upload failed.');
-          input.value = '';
-        };
-        xhr.send(form);
-      });
-    });
-  })();
-</script>

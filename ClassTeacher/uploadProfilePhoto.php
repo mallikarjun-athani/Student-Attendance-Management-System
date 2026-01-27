@@ -13,6 +13,21 @@ if (!isset($_SESSION['userId']) || $_SESSION['userId'] === '') {
   jsonOut(false, 'Unauthorized.');
 }
 
+$userId = intval($_SESSION['userId']);
+$dir = __DIR__ . '/uploads';
+$base = 'teacher_' . $userId;
+
+// Handle Removal
+if (isset($_POST['action']) && $_POST['action'] === 'remove') {
+    foreach (['jpg','png','webp'] as $e) {
+        $p = $dir . '/' . $base . '.' . $e;
+        if (file_exists($p)) {
+            @unlink($p);
+        }
+    }
+    jsonOut(true, 'Photo removed successfully.', ['url' => 'img/user-icn.png']);
+}
+
 if (!isset($_FILES['photo'])) {
   jsonOut(false, 'No file uploaded.');
 }
@@ -45,18 +60,15 @@ else {
   jsonOut(false, 'Only JPG, PNG, or WEBP images allowed.');
 }
 
-$userId = intval($_SESSION['userId']);
-$dir = __DIR__ . '/uploads';
 if (!is_dir($dir)) {
   @mkdir($dir, 0755, true);
 }
 
-$base = 'teacher_' . $userId;
 $target = $dir . '/' . $base . '.' . $ext;
 
 foreach (['jpg','png','webp'] as $e) {
   $p = $dir . '/' . $base . '.' . $e;
-  if (file_exists($p) && $p !== $target) {
+  if (file_exists($p) && ($p !== $target || true)) { // always clean old ones
     @unlink($p);
   }
 }
