@@ -112,7 +112,7 @@ if(isset($_POST['save'])){
 
                     // ensure division exists in tblDivision
                     $divisionRes = mysqli_query($conn, "SELECT Id FROM tblDivision WHERE divisionName = '$division' LIMIT 1");
-                    $divisionRow = $divisionRes ? mysqli_fetch_assoc($divisionRow) : null;
+                    $divisionRow = $divisionRes ? mysqli_fetch_assoc($divisionRes) : null;
 
                     if ($divisionRow && isset($divisionRow['Id'])) {
                         $divisionId = $divisionRow['Id'];
@@ -145,7 +145,6 @@ if(isset($_POST['save'])){
                 }
             }
         }
-    }
 
 
 //--------------------------------DELETE------------------------------------------------------------------
