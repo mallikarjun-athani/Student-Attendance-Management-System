@@ -22,8 +22,7 @@
         <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> <span>Department Teachers</span></a>
         <a href="createStudents.php" class="menu-item"><i class="fas fa-user-graduate"></i> <span>Manage Students</span></a>
         
-        <div class="menu-section">SETTINGS</div>
-        <a href="createSessionTerm.php" class="menu-item"><i class="fas fa-cog"></i> <span>Session & Term</span></a>
+        <!-- Removed Settings section as per Request -->
         
         <div class="menu-footer">
             <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>

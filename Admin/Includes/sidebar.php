@@ -60,15 +60,7 @@
         </div>
     </li>
 
-    <div class="sidebar-heading">Settings</div>
-    <li class="nav-item <?php echo ($currentPage == 'createSessionTerm.php') ? 'active' : ''; ?>">
-        <a class="nav-link" href="createSessionTerm.php">
-            <div class="nav-icon-wrapper">
-                <i class="fas fa-cog"></i>
-            </div>
-            <span>Session & Term</span>
-        </a>
-    </li>
+    <!-- Removed Session & Term Section as per Request -->
 
     <!-- <hr class="sidebar-divider d-none d-md-block opacity-10"> -->
 
