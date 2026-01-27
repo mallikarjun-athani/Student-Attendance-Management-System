@@ -464,7 +464,11 @@ h6,
     #accordionSidebar,
     .sidebar,
     .sidebar-mask,
-    .app-sidebar-backdrop {
+    .app-sidebar-backdrop,
+    body.sidebar-toggled #accordionSidebar,
+    body.sidebar-open #accordionSidebar,
+    body.sidebar-toggled .sidebar-mask,
+    body.sidebar-open .sidebar-mask {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
@@ -473,6 +477,7 @@ h6,
         position: fixed !important;
         left: -100% !important;
         pointer-events: none !important;
+        z-index: -1 !important;
     }
 
     /* Force content to take full width */

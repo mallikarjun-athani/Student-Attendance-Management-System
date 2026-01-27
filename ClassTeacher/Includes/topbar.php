@@ -134,16 +134,22 @@
 
       // Toggle button syncs sidebar-open class for our custom CSS
       if(toggleBtn) {
+        // Use capture phase to intercept the click before it reaches ruang-admin.js
         toggleBtn.addEventListener('click', function(e) {
           if(window.innerWidth <= 768) {
             e.preventDefault();
+            e.stopImmediatePropagation(); // Kill the original theme script!
             e.stopPropagation();
+            
+            // Remove any classes that ruang-admin.js might have added
+            document.body.classList.remove('sidebar-toggled');
+            document.body.classList.remove('sidebar-open');
+            
             // Open the rock-solid custom overlay menu
             toggleCustomMenu();
             return false;
           }
-          // On desktop, the original ruang-admin.js still handles side toggle
-        });
+        }, true); // UseCapture = true
       }
       
       if(mask) {

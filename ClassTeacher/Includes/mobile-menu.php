@@ -135,6 +135,11 @@
 function toggleCustomMenu() {
     var menu = document.getElementById('customMobileMenu');
     if (!menu) return;
+    
+    // Safety: Remove any legacy sidebar classes that might cause overlap
+    document.body.classList.remove('sidebar-toggled');
+    document.body.classList.remove('sidebar-open');
+    
     if (menu.classList.contains('active')) {
         menu.classList.remove('active');
         document.body.style.overflow = '';
