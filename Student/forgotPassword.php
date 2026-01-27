@@ -25,6 +25,7 @@ if (!function_exists('random_bytes')) {
 }
 
 $statusMsg = '';
+$emailSent = false;
 
 if (isset($_POST['reset_password'])) {
   $email = isset($_POST['email']) ? trim($_POST['email']) : '';
@@ -75,6 +76,7 @@ if (isset($_POST['reset_password'])) {
         
         if ($ok) {
           $statusMsg = "<div class='alert alert-success mb-4' style='border-radius:12px; font-weight:600;'>A password reset link has been sent to your email. Check your inbox.</div>";
+          $emailSent = true;
         } else {
           $statusMsg = "<div class='alert alert-danger mb-4' style='border-radius:12px; font-weight:600;'>Could not send email. Please try again later.</div>";
         }
@@ -153,12 +155,15 @@ if (isset($_POST['reset_password'])) {
                <i class="fas fa-key fa-2x"></i>
             </div>
             <h2 class="font-weight-bold mb-1" style="color:white !important;">Forgot Password</h2>
-            <p class="small opacity-75 mb-0" style="color:white !important;">Enter your email to receive a reset link</p>
+            <?php if (!$emailSent): ?>
+              <p class="small opacity-75 mb-0" style="color:white !important;">Enter your email to receive a reset link</p>
+            <?php endif; ?>
           </div>
           
           <div class="form-content">
             <?php echo $statusMsg; ?>
 
+            <?php if (!$emailSent): ?>
             <form method="post" action="">
               <div class="form-group mb-4">
                 <label class="form-label text-uppercase small font-weight-bold" style="color: var(--primary) !important;">Registered Email</label>
@@ -169,6 +174,7 @@ if (isset($_POST['reset_password'])) {
                 Send Reset Link
               </button>
             </form>
+            <?php endif; ?>
 
             <div class="text-center">
               <a href="login.php" class="text-primary font-weight-bold small">
