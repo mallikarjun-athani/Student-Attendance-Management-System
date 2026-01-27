@@ -105,15 +105,36 @@
       var mask = document.getElementById('sidebarMask');
       var body = document.body;
 
-      if(toggleBtn && mask) {
-        toggleBtn.addEventListener('click', function() {
-          body.classList.toggle('sidebar-open');
-        });
-        mask.addEventListener('click', function() {
+      function closeSidebar() {
+        if(body.classList.contains('sidebar-open')) {
           body.classList.remove('sidebar-open');
           var sidebar = document.querySelector('.sidebar');
           if(sidebar && sidebar.classList.contains('toggled')) {
             toggleBtn.click();
+          }
+        }
+      }
+
+      if(toggleBtn && mask) {
+        toggleBtn.addEventListener('click', function() {
+          body.classList.toggle('sidebar-open');
+        });
+        
+        // Close sidebar when clicking/touching the mask
+        mask.addEventListener('click', closeSidebar);
+        mask.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          closeSidebar();
+        });
+      }
+
+      // Also close sidebar when clicking on main content wrapper
+      var contentWrapper = document.getElementById('content-wrapper');
+      if(contentWrapper) {
+        contentWrapper.addEventListener('click', function(e) {
+          // Only close if sidebar is open and click is not on a link/button
+          if(body.classList.contains('sidebar-open') && window.innerWidth <= 768) {
+            closeSidebar();
           }
         });
       }

@@ -518,6 +518,9 @@ h6,
         background: rgba(15, 23, 42, 0.4);
         backdrop-filter: blur(4px);
         z-index: 1999;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
     }
 
     body.sidebar-open .sidebar-mask {
