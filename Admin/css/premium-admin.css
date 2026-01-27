@@ -523,7 +523,8 @@ h6,
         touch-action: manipulation;
     }
 
-    body.sidebar-open .sidebar-mask {
+    body.sidebar-open .sidebar-mask,
+    body.sidebar-toggled .sidebar-mask {
         display: block;
     }
 

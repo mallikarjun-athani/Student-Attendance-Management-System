@@ -114,30 +114,48 @@
         });
       }
 
-      // Pro Mobile Sidebar Toggle Logic
+      // Pro Mobile Sidebar Logic - works with ruang-admin.js
       var toggleBtn = document.getElementById('sidebarToggleTop');
       var mask = document.getElementById('sidebarMask');
       var body = document.body;
 
+      function isSidebarOpen() {
+        return body.classList.contains('sidebar-toggled') || body.classList.contains('sidebar-open');
+      }
+
       function closeSidebar() {
-        if(body.classList.contains('sidebar-open')) {
-          body.classList.remove('sidebar-open');
-          var sidebar = document.querySelector('.sidebar');
-          if(sidebar && sidebar.classList.contains('toggled')) {
-            toggleBtn.click();
-          }
+        body.classList.remove('sidebar-open');
+        body.classList.remove('sidebar-toggled');
+        var sidebar = document.querySelector('.sidebar');
+        if(sidebar) {
+          sidebar.classList.add('toggled');
         }
       }
 
-      if(toggleBtn && mask) {
+      // Toggle button syncs sidebar-open class for our custom CSS
+      if(toggleBtn) {
         toggleBtn.addEventListener('click', function() {
-          body.classList.toggle('sidebar-open');
+          // Sync our sidebar-open class with the toggle state
+          setTimeout(function() {
+            var sidebar = document.querySelector('.sidebar');
+            if(sidebar && !sidebar.classList.contains('toggled')) {
+              body.classList.add('sidebar-open');
+            } else {
+              body.classList.remove('sidebar-open');
+            }
+          }, 10);
         });
-        
+      }
+      
+      if(mask) {
         // Close sidebar when clicking/touching the mask
-        mask.addEventListener('click', closeSidebar);
+        mask.addEventListener('click', function(e) {
+          e.stopPropagation();
+          closeSidebar();
+        });
         mask.addEventListener('touchend', function(e) {
           e.preventDefault();
+          e.stopPropagation();
           closeSidebar();
         });
       }
@@ -146,9 +164,11 @@
       var contentWrapper = document.getElementById('content-wrapper');
       if(contentWrapper) {
         contentWrapper.addEventListener('click', function(e) {
-          // Only close if sidebar is open and click is not on a link/button
-          if(body.classList.contains('sidebar-open') && window.innerWidth <= 768) {
-            closeSidebar();
+          // Only close if sidebar is open and on mobile
+          if(isSidebarOpen() && window.innerWidth <= 768) {
+            if(!e.target.closest('a, button, input, select, .btn, .nav-item')) {
+              closeSidebar();
+            }
           }
         });
       }
