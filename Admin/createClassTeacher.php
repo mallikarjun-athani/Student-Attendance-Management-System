@@ -305,7 +305,7 @@ if(isset($_POST['save'])){
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">All Assigned Teachers</h6>
                 </div>
-                <div class="table-responsive p-3">
+                <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
@@ -342,17 +342,17 @@ if(isset($_POST['save'])){
                              $sn = $sn + 1;
                             echo"
                               <tr>
-                                <td>".$sn."</td>
-                                <td>".$rows['firstName']."</td>
-                                <td>".$rows['lastName']."</td>
-                                <td>".$rows['emailAddress']."</td>
-                                <td>".$rows['phoneNo']."</td>
-                                <td>".$rows['className']."</td>
-                                <td>".$rows['semisterName']."</td>
-                                <td>".$rows['plainPassword']."</td>
-                                 <td>".$rows['dateCreated']."</td>
-                                <td><a href='?action=edit&Id=".$rows['Id']."'><i class='fas fa-fw fa-edit'></i></a></td>
-                                <td><a href='?action=delete&Id=".$rows['Id']."&classArmId=".$rows['classArmId']."'><i class='fas fa-fw fa-trash'></i></a></td>
+                                <td data-label=\"#\">".$sn."</td>
+                                <td data-label=\"First Name\">".$rows['firstName']."</td>
+                                <td data-label=\"Last Name\">".$rows['lastName']."</td>
+                                <td data-label=\"Email\">".$rows['emailAddress']."</td>
+                                <td data-label=\"Phone\">".$rows['phoneNo']."</td>
+                                <td data-label=\"Dept\">".$rows['className']."</td>
+                                <td data-label=\"Sem\">".$rows['semisterName']."</td>
+                                <td data-label=\"Pass\">".$rows['plainPassword']."</td>
+                                <td data-label=\"Created\">".$rows['dateCreated']."</td>
+                                <td data-label=\"Edit\"><a href='?action=edit&Id=".$rows['Id']."'><i class='fas fa-fw fa-edit'></i></a></td>
+                                <td data-label=\"Delete\"><a href='?action=delete&Id=".$rows['Id']."&classArmId=".$rows['classArmId']."'><i class='fas fa-fw fa-trash'></i></a></td>
                               </tr>";
                           }
                       }

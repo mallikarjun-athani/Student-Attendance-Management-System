@@ -160,7 +160,7 @@ if(isset($_POST['save'])){
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">All Departments</h6>
                 </div>
-                <div class="table-responsive p-3">
+                <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
@@ -185,10 +185,10 @@ if(isset($_POST['save'])){
                              $sn = $sn + 1;
                             echo"
                               <tr>
-                                <td>".$sn."</td>
-                                <td>".$rows['className']."</td>
-                                <td><a href='?action=edit&Id=".$rows['Id']."' class='btn btn-sm btn-info'><i class='fas fa-edit mb-0'></i></a></td>
-                                <td><a href='?action=delete&Id=".$rows['Id']."' class='btn btn-sm btn-danger'><i class='fas fa-trash mb-0'></i></a></td>
+                                <td data-label=\"#\">".$sn."</td>
+                                <td data-label=\"Name\">".$rows['className']."</td>
+                                <td data-label=\"Edit\"><a href='?action=edit&Id=".$rows['Id']."' class='btn btn-sm btn-info'><i class='fas fa-edit mb-0'></i></a></td>
+                                <td data-label=\"Delete\"><a href='?action=delete&Id=".$rows['Id']."' class='btn btn-sm btn-danger'><i class='fas fa-trash mb-0'></i></a></td>
                               </tr>";
                           }
                       }

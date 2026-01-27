@@ -124,7 +124,7 @@ if ($rs) {
                           </div>
                           <div id="<?php echo htmlspecialchars($collapseId); ?>" class="collapse <?php echo $isOpen ? 'show' : ''; ?>" aria-labelledby="<?php echo htmlspecialchars($headingId); ?>" data-parent="#classAccordion">
                             <div class="card-body" style="padding:0;">
-                              <div class="table-responsive p-3">
+                              <div class="table-responsive table-cards p-3">
                                 <table class="table align-items-center table-flush table-hover js-stu-table" style="width:100%">
                                   <thead class="thead-light">
                                     <tr>
@@ -142,11 +142,11 @@ if ($rs) {
                                         $sn++;
                                         $name = trim(($stu['firstName'] ?? '').' '.($stu['lastName'] ?? '').' '.($stu['otherName'] ?? ''));
                                         echo "<tr>";
-                                        echo "<td>".$sn."</td>";
-                                        echo "<td>".htmlspecialchars($name)."</td>";
-                                        echo "<td>".htmlspecialchars($stu['admissionNumber'])."</td>";
-                                        echo "<td style='text-align:right;'>".intval($stu['totalAttendance'])."</td>";
-                                        echo "<td style='text-align:right;font-weight:bold;'>".intval($stu['presentAttendance'])."</td>";
+                                        echo "<td data-label='#'>".$sn."</td>";
+                                        echo "<td data-label='Name'>".htmlspecialchars($name)."</td>";
+                                        echo "<td data-label='Reg No'>".htmlspecialchars($stu['admissionNumber'])."</td>";
+                                        echo "<td data-label='Total' style='text-align:right;'>".intval($stu['totalAttendance'])."</td>";
+                                        echo "<td data-label='Present' style='text-align:right;font-weight:bold;'>".intval($stu['presentAttendance'])."</td>";
                                         echo "</tr>";
                                       }
                                     ?>

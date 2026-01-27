@@ -203,7 +203,7 @@ if (isset($_GET['status'])) {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">All Registered Students</h6>
                 </div>
-                <div class="table-responsive p-3">
+                <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
@@ -258,21 +258,21 @@ if (isset($_GET['status'])) {
                              $sn = $sn + 1;
                             echo"
                               <tr>
-                                <td>".$sn."</td>
-                                <td>".$rows['firstName']."</td>
-                                <td>".$rows['otherName']."</td>
-                                <td>".$rows['lastName']."</td>
-                                <td>".$rows['emailAddress']."</td>
-                                <td>".$rows['phoneNo']."</td>
-                                <td>".$rows['admissionNumber']."</td>
-                                <td>".($rows['className'] ?? 'N/A')."</td>
-                                <td>".($rows['semisterName'] ?? 'N/A')."</td>
-                                <td>".($rows['session'] ?? 'N/A')."</td>
-                                <td>".($rows['division'] ?? 'N/A')."</td>
-                                 <td>".($rows['syllabusType'] ?? 'N/A')."</td>
-                                <td>".$rows['dateCreated']."</td>
-                                <td>".(($rows['photo'] ?? '') !== '' ? "<img src='../".htmlspecialchars($rows['photo'])."' alt='Photo' style='width:40px;height:40px;object-fit:cover;border-radius:4px;'>" : "")."</td>
-                                <td><a href='?action=delete&Id=".$rows['Id']."' onclick='return confirm(\"Are you sure you want to delete this student permanently?\")'><i class='fas fa-fw fa-trash text-danger'></i></a></td>
+                                <td data-label=\"#\">".$sn."</td>
+                                <td data-label=\"First Name\">".$rows['firstName']."</td>
+                                <td data-label=\"Father Name\">".$rows['otherName']."</td>
+                                <td data-label=\"Last Name\">".$rows['lastName']."</td>
+                                <td data-label=\"Email Address\">".$rows['emailAddress']."</td>
+                                <td data-label=\"Phone\">".$rows['phoneNo']."</td>
+                                <td data-label=\"Reg No\">".$rows['admissionNumber']."</td>
+                                <td data-label=\"Department\">".($rows['className'] ?? 'N/A')."</td>
+                                <td data-label=\"Semester\">".($rows['semisterName'] ?? 'N/A')."</td>
+                                <td data-label=\"Session\">".($rows['session'] ?? 'N/A')."</td>
+                                <td data-label=\"Division\">".($rows['division'] ?? 'N/A')."</td>
+                                <td data-label=\"Syllabus\">".($rows['syllabusType'] ?? 'N/A')."</td>
+                                <td data-label=\"Date\">".$rows['dateCreated']."</td>
+                                <td data-label=\"Photo\">".(($rows['photo'] ?? '') !== '' ? "<img src='../".htmlspecialchars($rows['photo'])."' alt='Photo' style='width:40px;height:40px;object-fit:cover;border-radius:4px;'>" : "")."</td>
+                                <td data-label=\"Action\"><a href='?action=delete&Id=".$rows['Id']."' onclick='return confirm(\"Are you sure you want to delete this student permanently?\")'><i class='fas fa-fw fa-trash text-danger'></i></a></td>
                               </tr>";
                           }
                       }

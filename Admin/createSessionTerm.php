@@ -215,7 +215,7 @@ if(isset($_POST['save'])){
                   <h6 class="m-0 font-weight-bold text-primary">All Session and Division</h6>
                   <h6 class="m-0 font-weight-bold text-danger">Note: <i>Click on the check symbol besides each to make session and division active!</i></h6>
                 </div>
-                <div class="table-responsive p-3">
+                <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
@@ -248,14 +248,14 @@ if(isset($_POST['save'])){
                              $sn = $sn + 1;
                             echo"
                               <tr>
-                                <td>".$sn."</td>
-                                <td>".$rows['sessionName']."</td>
-                                <td>".$rows['divisionName']."</td>
-                                <td>".$status."</td>
-                                <td>".$rows['dateCreated']."</td>
-                                 <td><a href='?action=activate&Id=".$rows['Id']."'><i class='fas fa-fw fa-check'></i></a></td>
-                                <td><a href='?action=edit&Id=".$rows['Id']."'><i class='fas fa-fw fa-edit'></i></a></td>
-                                <td><a href='?action=delete&Id=".$rows['Id']."'><i class='fas fa-fw fa-trash'></i></a></td>
+                                <td data-label=\"#\">".$sn."</td>
+                                <td data-label=\"Session\">".$rows['sessionName']."</td>
+                                <td data-label=\"Division\">".$rows['divisionName']."</td>
+                                <td data-label=\"Status\">".$status."</td>
+                                <td data-label=\"Date\">".$rows['dateCreated']."</td>
+                                <td data-label=\"Activate\"><a href='?action=activate&Id=".$rows['Id']."'><i class='fas fa-fw fa-check'></i></a></td>
+                                <td data-label=\"Edit\"><a href='?action=edit&Id=".$rows['Id']."'><i class='fas fa-fw fa-edit'></i></a></td>
+                                <td data-label=\"Delete\"><a href='?action=delete&Id=".$rows['Id']."'><i class='fas fa-fw fa-trash'></i></a></td>
                               </tr>";
                           }
                       }
