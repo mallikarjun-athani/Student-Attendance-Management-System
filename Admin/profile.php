@@ -19,26 +19,40 @@ if (isset($_POST['updateProfile'])) {
     $firstName = trim($_POST['firstName']);
     $lastName = trim($_POST['lastName']);
     $emailAddress = trim($_POST['emailAddress']);
+    $password = trim($_POST['password']);
 
-    $stmt = $conn->prepare("UPDATE tbladmin SET firstName=?, lastName=?, emailAddress=? WHERE Id=?");
-    $stmt->bind_param('sssi', $firstName, $lastName, $emailAddress, $userId);
-    if ($stmt->execute()) {
-        $statusMsg = "<div class='alert alert-success' data-toast='1'>Profile updated successfully!</div>";
-        // Refresh local data
-        $admin['firstName'] = $firstName;
-        $admin['lastName'] = $lastName;
-        $admin['emailAddress'] = $emailAddress;
+    if ($emailAddress === '') {
+        $statusMsg = "<div class='alert alert-danger' data-toast='1'>Email Address is mandatory!</div>";
     } else {
-        $statusMsg = "<div class='alert alert-danger' data-toast='1'>Failed to update profile.</div>";
+        if ($password !== '') {
+            $hashedPass = md5($password);
+            $stmt = $conn->prepare("UPDATE tbladmin SET firstName=?, lastName=?, emailAddress=?, password=? WHERE Id=?");
+            $stmt->bind_param('ssssi', $firstName, $lastName, $emailAddress, $hashedPass, $userId);
+        } else {
+            $stmt = $conn->prepare("UPDATE tbladmin SET firstName=?, lastName=?, emailAddress=? WHERE Id=?");
+            $stmt->bind_param('sssi', $firstName, $lastName, $emailAddress, $userId);
+        }
+
+        if ($stmt->execute()) {
+            $statusMsg = "<div class='alert alert-success' data-toast='1'>Profile updated successfully!</div>";
+            // Refresh local data
+            $admin['firstName'] = $firstName;
+            $admin['lastName'] = $lastName;
+            $admin['emailAddress'] = $emailAddress;
+            // Update session if email changed
+            $_SESSION['emailAddress'] = $emailAddress;
+        } else {
+            $statusMsg = "<div class='alert alert-danger' data-toast='1'>Failed to update profile.</div>";
+        }
+        $stmt->close();
     }
-    $stmt->close();
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <?php include 'Includes/header.php'; ?>
-<body id="page-top">
+<body id="page-top" class="animate-fade-up">
   <div id="wrapper">
     <?php include "Includes/sidebar.php"; ?>
     <div id="content-wrapper" class="d-flex flex-column">
@@ -56,41 +70,75 @@ if (isset($_POST['updateProfile'])) {
 
           <div class="row">
             <div class="col-lg-4 text-center">
-              <div class="card mb-4 py-4">
+              <div class="card mb-4 border-0 shadow-sm py-5" style="border-radius: 20px;">
                 <div class="card-body">
-                   <div class="position-relative d-inline-block mb-3">
-                        <img src="img/user-icn.png" class="img-profile rounded-circle-xl" style="width: 150px; height: 150px; border: 5px solid var(--primary-glow); object-fit: cover;">
+                   <div class="position-relative d-inline-block mb-4">
+                        <?php
+                        $photoPath = 'img/user-icn.png';
+                        $hasCustomPhoto = false;
+                        $dir = __DIR__ . '/../uploads';
+                        $base = 'admin_' . $userId;
+                        foreach (['jpg','png','jpeg','webp'] as $ext) {
+                          if (file_exists($dir . '/' . $base . '.' . $ext)) {
+                            $photoPath = 'uploads/' . $base . '.' . $ext . '?v=' . time();
+                            $hasCustomPhoto = true;
+                            break;
+                          }
+                        }
+                        ?>
+                        <div class="profile-img-container" style="position: relative;">
+                            <img id="profilePreview" src="<?php echo $photoPath; ?>" class="img-profile rounded-circle" style="width: 160px; height: 160px; border: 6px solid #f8fafc; box-shadow: 0 10px 25px rgba(0,0,0,0.1); object-fit: cover;">
+                            <div class="upload-options" style="position: absolute; bottom: 5px; right: 5px; display: flex; gap: 8px;">
+                                <button class="btn btn-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;" onclick="document.getElementById('profilePhotoInput').click()" title="Upload Photo">
+                                    <i class="fas fa-camera"></i>
+                                </button>
+                                <input type="file" id="profilePhotoInput" accept="image/*" style="display: none;">
+                                
+                                <button id="removePhotoBtn" class="btn btn-danger rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 42px; height: 42px; <?php echo $hasCustomPhoto ? '' : 'display:none;'; ?>" title="Remove Photo">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </div>
                    </div>
-                   <h5 class="font-weight-bold mb-1"><?php echo htmlspecialchars($admin['firstName']." ".$admin['lastName']); ?></h5>
-                   <p class="text-muted small">System Administrator</p>
-                   <div class="badge-pro bg-soft-purple text-purple px-4 py-2" style="border-radius: 12px; font-weight: 700;">Full Access</div>
+                   <h5 class="font-weight-bold text-dark mb-1">
+                    <?php 
+                      $dispName = trim($admin['firstName']." ".$admin['lastName']);
+                      echo $dispName !== "" ? htmlspecialchars($dispName) : htmlspecialchars($admin['emailAddress']);
+                    ?>
+                   </h5>
+                   <p class="text-muted small mb-3">System Administrator</p>
+                   <div class="badge-pro bg-primary text-white px-4 py-2 shadow-sm" style="border-radius: 12px; font-weight: 700;">Full Access</div>
                 </div>
               </div>
             </div>
 
             <div class="col-lg-8">
-              <div class="card mb-4 shadow-sm border-0">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Personal Details</h6>
+              <div class="card mb-4 shadow-sm border-0" style="border-radius: 20px;">
+                <div class="card-header bg-white border-0 py-4">
+                  <h6 class="m-0 font-weight-bold text-dark"><i class="fas fa-user-shield mr-2 text-primary"></i> Account Credentials</h6>
                 </div>
                 <div class="card-body">
                   <?php echo $statusMsg; ?>
                   <form method="post">
-                    <div class="form-row">
-                      <div class="form-group col-md-6 mb-3">
-                        <label class="form-control-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" value="<?php echo htmlspecialchars($admin['firstName']); ?>" required>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold small text-uppercase text-muted">First Name (Optional)</label>
+                        <input type="text" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="firstName" value="<?php echo htmlspecialchars($admin['firstName']); ?>">
                       </div>
-                      <div class="form-group col-md-6 mb-3">
-                        <label class="form-control-label">Last Name</label>
-                        <input type="text" class="form-control" name="lastName" value="<?php echo htmlspecialchars($admin['lastName']); ?>" required>
+                      <div class="col-md-6 mb-3">
+                        <label class="font-weight-bold small text-uppercase text-muted">Last Name (Optional)</label>
+                        <input type="text" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="lastName" value="<?php echo htmlspecialchars($admin['lastName']); ?>">
                       </div>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label class="font-weight-bold small text-uppercase text-muted">Email Address (Mandatory)</label>
+                      <input type="email" class="form-control bg-light border-primary-soft" style="border-radius: 12px; height: 48px;" name="emailAddress" value="<?php echo htmlspecialchars($admin['emailAddress']); ?>" required>
                     </div>
                     <div class="form-group mb-4">
-                      <label class="form-control-label">Email Address</label>
-                      <input type="email" class="form-control" name="emailAddress" value="<?php echo htmlspecialchars($admin['emailAddress']); ?>" required>
+                      <label class="font-weight-bold small text-uppercase text-muted">New Password (Leave blank to keep current)</label>
+                      <input type="password" class="form-control bg-light" style="border-radius: 12px; height: 48px;" name="password" placeholder="Enter new password to change">
                     </div>
-                    <button type="submit" name="updateProfile" class="btn btn-primary px-5 py-3">Update Profile</button>
+                    <button type="submit" name="updateProfile" class="btn btn-primary px-5 font-weight-bold" style="border-radius: 14px; height: 50px;">Apply Changes</button>
                   </form>
                 </div>
               </div>
@@ -110,5 +158,57 @@ if (isset($_POST['updateProfile'])) {
   <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="js/ruang-admin.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // Photo Upload handling
+      $('#profilePhotoInput').on('change', function() {
+        var formData = new FormData();
+        var files = $(this)[0].files;
+        if (files.length > 0) {
+          var file = files[0];
+          if (file.size > 2 * 1024 * 1024) {
+            alert('File too large! Max 2MB.');
+            $(this).val('');
+            return;
+          }
+
+          formData.append('photo', file);
+          $.ajax({
+            url: 'uploadProfilePhoto.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+              if (response.ok) {
+                location.reload(); 
+              } else {
+                alert(response.message);
+              }
+            }
+          });
+        }
+      });
+
+      // Photo Removal handling
+      $('#removePhotoBtn').on('click', function() {
+        if(!confirm('Are you sure you want to remove your profile photo?')) return;
+        
+        $.ajax({
+          url: 'uploadProfilePhoto.php',
+          type: 'POST',
+          data: { action: 'remove' },
+          success: function(response) {
+            if (response.ok) {
+              location.reload();
+            } else {
+              alert(response.message);
+            }
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

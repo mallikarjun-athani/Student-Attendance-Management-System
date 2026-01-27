@@ -1,16 +1,33 @@
 <?php 
 
   $fullName = "Admin"; // default fallback
+  $profileImg = "img/user-icn.png";
 
   if (isset($_SESSION['userId'])) {
     $adminId = intval($_SESSION['userId']);
     if ($adminId > 0) {
+      // Find profile image
+      $dir = __DIR__ . '/../uploads';
+      $base = 'admin_' . $adminId;
+      foreach (['jpg','png','jpeg','webp'] as $ext) {
+        if (file_exists($dir . '/' . $base . '.' . $ext)) {
+          $profileImg = 'uploads/' . $base . '.' . $ext . '?v=' . time();
+          break;
+        }
+      }
+
       $query = "SELECT * FROM tbladmin WHERE Id = ".$adminId;
       $rs = $conn->query($query);
       if ($rs && $rs->num_rows > 0) {
         $rows = $rs->fetch_assoc();
-        if ($rows && isset($rows['firstName']) && isset($rows['lastName'])) {
-          $fullName = $rows['firstName']." ".$rows['lastName'];
+        if ($rows) {
+          $f = $rows['firstName'] ?? '';
+          $l = $rows['lastName'] ?? '';
+          if ($f !== '' || $l !== '') {
+            $fullName = trim($f . " " . $l);
+          } else {
+            $fullName = $rows['emailAddress'] ?? 'Admin';
+          }
         }
       }
     }
@@ -37,7 +54,7 @@
             <span class="d-block text-muted" style="font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Active</span>
           </div>
           <div class="position-relative profile-icon-wrapper" style="width: 44px; height: 44px; padding: 2px; background: var(--primary-gradient); border-radius: 50%; box-shadow: 0 4px 12px var(--primary-glow);">
-            <img class="img-profile rounded-circle" src="img/user-icn.png" style="width: 100%; height: 100%; border: 2px solid #fff; object-fit: cover;">
+            <img class="img-profile rounded-circle" src="<?php echo $profileImg; ?>" style="width: 100%; height: 100%; border: 2px solid #fff; object-fit: cover;">
             <div class="status-indicator bg-success" style="position: absolute; bottom: 2px; right: 2px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid #fff; z-index: 10;"></div>
           </div>
         </div>
