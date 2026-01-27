@@ -20,7 +20,10 @@ if(isset($_POST['save'])){
     $query=mysqli_query($conn,"select * from tblclasssemister where semisterName ='$classArmName' and classId = '$classId'");
     $ret=mysqli_fetch_array($query);
 
-    if($ret > 0){ 
+    if (!preg_match('/^\d{4}-\d{4}$/', $session)) {
+        $statusMsg = "<div class='alert alert-danger' style='margin-right:700px;' data-toast='1'>Invalid Session Format! Use YYYY-YYYY.</div>";
+    }
+    else if($ret > 0){ 
 
         $statusMsg = "<div class='alert alert-danger' style='margin-right:700px;' data-toast='1'>This Semester Already Exists!</div>";
     }
@@ -95,9 +98,13 @@ if(isset($_POST['save'])){
             $session = isset($_POST['session']) ? $_POST['session'] : '';
             $division = isset($_POST['division']) ? $_POST['division'] : '';
 
-            $query=mysqli_query($conn,"update tblclasssemister set classId = '$classId', semisterName='$classArmName', syllabusType='$syllabusType', session='$session', division='$division' where Id='$Id'");
+            if (!preg_match('/^\d{4}-\d{4}$/', $session)) {
+                $statusMsg = "<div class='alert alert-danger' style='margin-right:700px;' data-toast='1'>Invalid Session Format! Use YYYY-YYYY.</div>";
+            }
+            else {
+                $query=mysqli_query($conn,"update tblclasssemister set classId = '$classId', semisterName='$classArmName', syllabusType='$syllabusType', session='$session', division='$division' where Id='$Id'");
 
-            if ($query) {
+                if ($query) {
 
                 // also ensure session + division pair exists in normalized tables when updating
                 if ($session != '' && $division != '') {
@@ -134,6 +141,8 @@ if(isset($_POST['save'])){
             else
             {
                 $statusMsg = "<div class='alert alert-danger' style='margin-right:700px;' data-toast='1'>An error Occurred!</div>";
+            }
+                }
             }
         }
     }
@@ -242,8 +251,8 @@ if(isset($_POST['save'])){
                       </div>
 
                       <div class="form-group col-12 col-md-6 mb-3">
-                        <label class="form-control-label">Session</label>
-                        <input type="text" class="form-control" name="session" placeholder="Session">
+                        <label class="form-control-label">Session<span class="text-danger ml-2">*</span></label>
+                        <input type="text" class="form-control" name="session" placeholder="e.g. 2025-2026" required pattern="\d{4}-\d{4}" title="Please enter session in YYYY-YYYY format" value="<?php echo isset($row['session']) ? $row['session'] : ''; ?>">
                       </div>
 
                       <div class="form-group col-12 col-md-6 mb-3">
