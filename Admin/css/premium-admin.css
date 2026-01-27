@@ -459,79 +459,98 @@ h6,
 
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
+
+    /* Critical: Remove overflow hidden from parents to prevent sidebar clipping on some devices */
+    body,
+    #wrapper {
+        overflow-x: visible !important;
+        overflow: visible !important;
+    }
+
     #accordionSidebar {
-        position: fixed;
-        left: -280px;
-        height: 100vh;
+        position: fixed !important;
+        top: 0 !important;
+        left: -300px !important;
+        /* Move completely out of view */
+        height: 100vh !important;
         width: 280px !important;
-        border-radius: 0 30px 30px 0;
-        z-index: 2000;
-        box-shadow: 25px 0 50px rgba(0, 0, 0, 0.2);
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    #accordionSidebar.toggled {
-        left: 0;
-        width: 280px !important;
-        min-width: 280px !important;
+        margin: 0 !important;
+        border-radius: 0 30px 30px 0 !important;
+        z-index: 9999 !important;
+        /* Super high z-index */
+        box-shadow: 25px 0 50px rgba(0, 0, 0, 0.2) !important;
         overflow-y: auto !important;
+        overflow-x: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        /* Smooth scroll for iOS */
+        display: block !important;
+        transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        visibility: visible !important;
     }
 
-    /* Force every element inside sidebar to be visible on mobile when toggled */
-    #accordionSidebar.toggled .sidebar-brand,
-    #accordionSidebar.toggled .sidebar-brand-icon,
-    #accordionSidebar.toggled .sidebar-brand-text,
-    #accordionSidebar.toggled .sidebar-heading,
-    #accordionSidebar.toggled .nav-item,
-    #accordionSidebar.toggled .nav-item .nav-link,
-    #accordionSidebar.toggled .nav-item .nav-link span,
-    #accordionSidebar.toggled .nav-item .nav-link i,
-    #accordionSidebar.toggled .nav-icon-wrapper,
-    #accordionSidebar.toggled hr {
-        display: flex !important;
+    /* Use both toggled and sidebar-open classes for compatibility */
+    #accordionSidebar.toggled,
+    body.sidebar-toggled #accordionSidebar,
+    body.sidebar-open #accordionSidebar {
+        left: 0 !important;
+    }
+
+    /* Force all text and icons to be visible and white on mobile */
+    #accordionSidebar.toggled *,
+    body.sidebar-toggled #accordionSidebar *,
+    body.sidebar-open #accordionSidebar * {
         opacity: 1 !important;
         visibility: visible !important;
-        width: auto !important;
-        height: auto !important;
-        transform: none !important;
+        display: inherit;
+        /* Reset display to default child inheritance */
     }
 
-    #accordionSidebar.toggled .nav-item {
+    /* Specific targeting for sidebar items */
+    #accordionSidebar .sidebar-brand,
+    #accordionSidebar .nav-item,
+    #accordionSidebar .sidebar-heading,
+    #accordionSidebar .nav-link,
+    #accordionSidebar .nav-link span,
+    #accordionSidebar hr {
         display: block !important;
-        width: 100% !important;
-    }
-
-    #accordionSidebar.toggled .sidebar-brand {
-        display: flex !important;
-        padding: 1.5rem 1rem !important;
-    }
-
-    #accordionSidebar.toggled .sidebar-brand-text {
-        display: block !important;
-        margin-left: 0.75rem !important;
-    }
-
-    #accordionSidebar.toggled .nav-item .nav-link span {
-        display: inline-block !important;
-    }
-
-    #accordionSidebar.toggled .sidebar-brand .sidebar-brand-text {
-        display: inline !important;
-        visibility: visible !important;
-    }
-
-    #accordionSidebar.toggled .sidebar-brand,
-    #accordionSidebar.toggled .nav-item .nav-link,
-    #accordionSidebar.toggled .sidebar-heading {
         color: #ffffff !important;
-        transition: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 100% !important;
+        clear: both;
     }
 
-    #accordionSidebar.toggled .sidebar-brand {
+    #accordionSidebar .nav-link {
+        padding: 1rem 1.5rem !important;
         display: flex !important;
+        align-items: center !important;
+    }
+
+    #accordionSidebar .nav-icon-wrapper {
+        display: flex !important;
+        margin-right: 12px !important;
+        width: 32px !important;
+        height: 32px !important;
         opacity: 1 !important;
-        justify-content: center;
+        visibility: visible !important;
+    }
+
+    #accordionSidebar .sidebar-brand {
+        padding: 2rem 1.5rem !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: auto !important;
+    }
+
+    #accordionSidebar .sidebar-brand-text {
+        display: block !important;
+        margin-left: 10px !important;
+        font-size: 1.2rem !important;
+    }
+
+    #accordionSidebar .sidebar-brand-icon i {
+        font-size: 2rem !important;
     }
 
     /* Mobile Sidebar Overlay Backdrop */
