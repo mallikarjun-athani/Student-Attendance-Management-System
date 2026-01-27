@@ -461,11 +461,12 @@ h6,
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
 
-    /* Critical: Prevent any parent from clipping the sidebar */
+    /* Critical: Prevent any parent from clipping or hiding the sidebar */
     html,
     body,
     #wrapper,
-    #content-wrapper {
+    #content-wrapper,
+    #content {
         overflow-x: visible !important;
         overflow: visible !important;
         position: relative !important;
@@ -477,24 +478,23 @@ h6,
         left: -320px !important;
         /* Move completely out of view */
         height: 100vh !important;
-        width: 280px !important;
+        width: 290px !important;
         margin: 0 !important;
         padding: 0 !important;
         border-radius: 0 40px 40px 0 !important;
         z-index: 10001 !important;
         /* Above everything else */
-        box-shadow: 25px 0 60px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: 25px 0 60px rgba(0, 0, 0, 0.5) !important;
         background: #1e1b4b !important;
-        /* Fallback solid color */
+        /* Indigo Fallback */
         background: var(--sidebar-bg) !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
-        -webkit-overflow-scrolling: touch !important;
-        /* Smooth scroll for iOS */
         display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
         transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        -webkit-overflow-scrolling: touch !important;
     }
 
     /* Target all possible toggle classes for maximum compatibility */
@@ -504,34 +504,23 @@ h6,
         left: 0 !important;
     }
 
-    /* Force all text, icons, and items to be visible and white on mobile */
-    #accordionSidebar .sidebar-brand,
-    #accordionSidebar .sidebar-heading,
-    #accordionSidebar .nav-item,
-    #accordionSidebar .nav-link,
-    #accordionSidebar .nav-link span,
-    #accordionSidebar .nav-link i,
-    #accordionSidebar .nav-icon-wrapper,
-    #accordionSidebar .sidebar-brand-text,
-    #accordionSidebar .sidebar-brand-icon,
-    #accordionSidebar hr {
-        display: flex !important;
+    /* NUCLEAR FIX: Force everything inside the sidebar to be visible, white, and displayed */
+    #accordionSidebar,
+    #accordionSidebar * {
         visibility: visible !important;
         opacity: 1 !important;
         color: #ffffff !important;
+        text-decoration: none !important;
         transform: none !important;
         transition: none !important;
-        width: auto !important;
-        height: auto !important;
-        text-align: left !important;
     }
 
-    /* Ensure list items are block level containers */
+    /* Specific layout for links and text */
     #accordionSidebar .nav-item {
         display: block !important;
         width: 100% !important;
+        padding: 5px 15px !important;
         margin: 0 !important;
-        padding: 0 15px !important;
         clear: both !important;
     }
 
@@ -539,30 +528,43 @@ h6,
         padding: 1rem !important;
         display: flex !important;
         align-items: center !important;
-        text-decoration: none !important;
+    }
+
+    #accordionSidebar .nav-link i {
+        font-size: 1.2rem !important;
+        width: 25px !important;
+        margin-right: 15px !important;
+        text-align: center !important;
+        display: inline-block !important;
     }
 
     #accordionSidebar .nav-link span {
         display: inline-block !important;
-        font-size: 0.95rem !important;
+        font-size: 1rem !important;
         font-weight: 500 !important;
-        margin-left: 12px !important;
     }
 
+    /* Force the Logo/Brand Section to show up */
     #accordionSidebar .sidebar-brand {
-        padding: 2.5rem 1.5rem !important;
+        padding: 3rem 1.5rem !important;
         margin-bottom: 1rem !important;
-        justify-content: flex-start !important;
-        background: rgba(255, 255, 255, 0.05) !important;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: auto !important;
     }
 
     #accordionSidebar .sidebar-brand-text {
-        display: block !important;
-        margin-left: 12px !important;
         font-size: 1.2rem !important;
         font-weight: 800 !important;
-        letter-spacing: -0.5px;
+        margin-left: 12px !important;
+        display: block !important;
+    }
+
+    #accordionSidebar .sidebar-brand-icon i {
+        font-size: 2rem !important;
+        display: block !important;
     }
 
     #accordionSidebar .sidebar-heading {
@@ -579,10 +581,10 @@ h6,
         display: none;
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.5);
-        backdrop-filter: blur(5px);
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         z-index: 10000;
-        /* Just below sidebar */
         cursor: pointer;
         opacity: 0;
         transition: opacity 0.3s ease;

@@ -126,10 +126,18 @@
             var sidebar = document.querySelector('.sidebar');
             if(sidebar && !sidebar.classList.contains('toggled')) {
               body.classList.add('sidebar-open');
+              // Force visibility via JS for problematic browsers
+              if(window.innerWidth <= 768) {
+                var items = sidebar.querySelectorAll('*');
+                for(var i=0; i<items.length; i++) {
+                   items[i].style.opacity = '1';
+                   items[i].style.visibility = 'visible';
+                }
+              }
             } else {
               body.classList.remove('sidebar-open');
             }
-          }, 10);
+          }, 50);
         });
       }
       
