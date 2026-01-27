@@ -163,10 +163,10 @@ if(isset($_POST['save'])){
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Create Class Teachers</h1>
+            <h1 class="h3 mb-0 text-gray-800">Assign Department Teachers</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Create Class Teachers</li>
+              <li class="breadcrumb-item active" aria-current="page">Assign Department Teachers</li>
             </ol>
           </div>
 
@@ -175,7 +175,7 @@ if(isset($_POST['save'])){
               <!-- Form Basic -->
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Create Class Teachers</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Assign Department Teachers</h6>
                     <?php echo $statusMsg; ?>
                 </div>
                 <div class="card-body">
@@ -237,15 +237,15 @@ if(isset($_POST['save'])){
                                 }
                             ?>
                       </div>
-                      <div class="form-group col-12 col-md-4 mb-3">
-                        <label class="form-control-label">Select Class<span class="text-danger ml-2">*</span></label>
+                       <div class="form-group col-12 col-md-4 mb-3">
+                        <label class="form-control-label">Select Department<span class="text-danger ml-2">*</span></label>
                          <?php
                         $qry= "SELECT * FROM tblclass ORDER BY className ASC";
                         $result = $conn->query($qry);
                         $num = $result->num_rows;		
                         if ($num > 0){
                           echo ' <select required name="classId" onchange="classArmDropdown(this.value)" class="form-control">';
-                          echo'<option value="">--Select Class--</option>';
+                          echo'<option value="">--Select Department--</option>';
                           while ($rows = $result->fetch_assoc()){
                           echo'<option value="'.$rows['Id'].'" >'.$rows['className'].'</option>';
                               }
@@ -303,7 +303,7 @@ if(isset($_POST['save'])){
               <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">All Class Teachers</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">All Assigned Teachers</h6>
                 </div>
                 <div class="table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -314,7 +314,7 @@ if(isset($_POST['save'])){
                         <th>Last Name</th>
                         <th>Email Address</th>
                         <th>Phone No</th>
-                        <th>Class</th>
+                        <th>Department</th>
                         <th>Semester</th>
                         <th>Password</th>
                         <th>Date Created</th>
@@ -416,7 +416,7 @@ if(isset($_POST['save'])){
 
     function classArmDropdown(str) {
     if (str == "") {
-        document.getElementById("txtHint").innerHTML = "";
+        document.getElementById("txtHint").innerHTML = "<select class='form-control mb-3'><option value=''>--Select Department First--</option></select>";
         return;
     } else { 
         if (window.XMLHttpRequest) {

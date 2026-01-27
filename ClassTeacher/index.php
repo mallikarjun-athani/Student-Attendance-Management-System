@@ -36,12 +36,12 @@ include '../Includes/session.php';
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">
-              Class Teacher Dashboard (
+              Department Teacher Dashboard (
               <?php
                 if (!empty($rrw) && isset($rrw['className'], $rrw['semisterName'])) {
                     echo $rrw['className'] . ' - ' . $rrw['semisterName'];
                 } else {
-                    echo 'Class not assigned';
+                    echo 'Department not assigned';
                 }
               ?>
               )
@@ -81,7 +81,7 @@ include '../Includes/session.php';
                       <i class="fas fa-chalkboard"></i>
                     </div>
                     <div class="stats-value" style="font-size: 1.5rem !important;"><?php echo (!empty($rrw) && isset($rrw['className'])) ? $rrw['className'] : 'N/A';?></div>
-                    <div class="stats-label">My Class</div>
+                    <div class="stats-label">My Department</div>
                   </div>
                 </div>
               </a>

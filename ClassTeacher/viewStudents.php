@@ -34,10 +34,10 @@ $query = "SELECT tblclass.className,tblclasssemister.semisterName
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">All Student in (<?php echo $rrw['className'].' - '.$rrw['semisterName'];?>) Class</h1>
+            <h1 class="h3 mb-0 text-gray-800">All Students in (<?php echo $rrw['className'].' - '.$rrw['semisterName'];?>) Department</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">All Student in Class</li>
+              <li class="breadcrumb-item active" aria-current="page">All Students in Department</li>
             </ol>
           </div>
 
@@ -51,7 +51,7 @@ $query = "SELECT tblclass.className,tblclasssemister.semisterName
               <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">All Student In Class</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">All Students In Department</h6>
                 </div>
                 <div class="table-responsive table-cards p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
@@ -62,7 +62,7 @@ $query = "SELECT tblclass.className,tblclasssemister.semisterName
                         <th>Last Name</th>
                         <th>Father Name</th>
                         <th>Admission No</th>
-                        <th>Class</th>
+                        <th>Department</th>
                         <th>Semester</th>
                         <th>Email Address</th>
                         <th>Phone Number</th>
@@ -103,7 +103,7 @@ $query = "SELECT tblclass.className,tblclasssemister.semisterName
                                 <td data-label=\"Last Name\">".$rows['lastName']."</td>
                                 <td data-label=\"Father Name\">".$rows['otherName']."</td>
                                 <td data-label=\"Admission No\">".$rows['admissionNumber']."</td>
-                                <td data-label=\"Class\">".$rows['className']."</td>
+                                <td data-label=\"Department\">".$rows['className']."</td>
                                 <td data-label=\"Semester\">".$rows['semisterName']."</td>
                                 <td data-label=\"Email Address\">".$rows['emailAddress']."</td>
                                 <td data-label=\"Phone Number\">".$rows['phoneNo']."</td>

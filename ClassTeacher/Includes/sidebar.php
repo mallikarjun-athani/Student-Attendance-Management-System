@@ -36,7 +36,7 @@
         </a>
         <div id="collapseBootstrapcon" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div class="collapse-inner rounded-xl" style="background: rgba(255,255,255,0.08); margin: 0 1rem; border: 1px solid rgba(255,255,255,0.1); padding: 0.5rem;">
-                <a class="collapse-item text-muted py-2 px-3 d-block transition-all" href="viewAttendance.php" style="border-radius: 10px;">Class Records</a>
+                <a class="collapse-item text-muted py-2 px-3 d-block transition-all" href="viewAttendance.php" style="border-radius: 10px;">Department Records</a>
                 <a class="collapse-item text-muted py-2 px-3 d-block transition-all" href="viewStudentAttendance.php" style="border-radius: 10px;">Student Records</a>
                 <a class="collapse-item text-muted py-2 px-3 d-block transition-all" href="todayReport.php" style="border-radius: 10px;">Today's Report</a>
             </div>

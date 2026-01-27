@@ -61,7 +61,7 @@ include '../Includes/session.php';
                       <i class="fas fa-chalkboard-teacher"></i>
                     </div>
                     <div class="stats-value"><?php echo $classTeacher;?></div>
-                    <div class="stats-label">Class Teachers</div>
+                    <div class="stats-label">Department Teachers</div>
                   </div>
                 </div>
               </a>
@@ -80,7 +80,7 @@ include '../Includes/session.php';
                       <i class="fas fa-chalkboard"></i>
                     </div>
                     <div class="stats-value"><?php echo $class;?></div>
-                    <div class="stats-label">Total Classes</div>
+                    <div class="stats-label">Total Departments</div>
                   </div>
                 </div>
               </a>

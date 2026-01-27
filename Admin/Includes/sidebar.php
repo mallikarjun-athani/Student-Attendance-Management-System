@@ -26,7 +26,7 @@
         </a>
         <div id="collapseClass" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
             <div class="collapse-inner">
-                <a class="collapse-item" href="createClass.php">Classes</a>
+                <a class="collapse-item" href="createClass.php">Departments</a>
                 <a class="collapse-item" href="createClassArms.php">Semesters</a>
             </div>
         </div>

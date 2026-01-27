@@ -15,7 +15,7 @@ if(isset($_POST['save'])){
 
     if($ret > 0){ 
 
-        $statusMsg = "<div class='alert alert-danger' data-toast='1'>This Class Already Exists!</div>";
+        $statusMsg = "<div class='alert alert-danger' data-toast='1'>This Department Already Exists!</div>";
     }
     else{
 
@@ -114,10 +114,10 @@ if(isset($_POST['save'])){
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Create Class</h1>
+            <h1 class="h3 mb-0 text-gray-800">Create Department</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Create Class</li>
+              <li class="breadcrumb-item active" aria-current="page">Create Department</li>
             </ol>
           </div>
 
@@ -126,15 +126,15 @@ if(isset($_POST['save'])){
               <!-- Form Basic -->
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Create Class</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">Create Department</h6>
                     <?php echo $statusMsg; ?>
                 </div>
                 <div class="card-body">
                   <form method="post">
                     <div class="form-group row mb-3">
                         <div class="col-xl-6">
-                            <label class="form-control-label">Class Name<span class="text-danger ml-2">*</span></label>
-                      <input type="text" class="form-control" name="className" value="<?php echo $row['className'];?>" id="exampleInputFirstName" placeholder="Class Name">
+                            <label class="form-control-label">Department Name<span class="text-danger ml-2">*</span></label>
+                      <input type="text" class="form-control" name="className" value="<?php echo $row['className'];?>" id="exampleInputFirstName" placeholder="Department Name">
                         </div>
                     </div>
                       <?php
@@ -158,14 +158,14 @@ if(isset($_POST['save'])){
               <div class="col-lg-12">
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">All Classes</h6>
+                  <h6 class="m-0 font-weight-bold text-primary">All Departments</h6>
                 </div>
                 <div class="table-responsive p-3">
                   <table class="table align-items-center table-flush table-hover" id="dataTableHover">
                     <thead class="thead-light">
                       <tr>
                         <th>#</th>
-                        <th>Class Name</th>
+                        <th>Department Name</th>
                         <th>Edit</th>
                         <th>Delete</th>
                       </tr>
