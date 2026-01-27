@@ -478,37 +478,54 @@ h6,
         overflow-y: auto !important;
     }
 
-    /* Fix: Ensure sidebar content is visible on mobile when toggled */
-    /* Fix: Ensure sidebar & all children are visible on mobile when toggled */
-    #accordionSidebar.toggled .nav-item,
+    /* Force every element inside sidebar to be visible on mobile when toggled */
+    #accordionSidebar.toggled .sidebar-brand,
+    #accordionSidebar.toggled .sidebar-brand-icon,
+    #accordionSidebar.toggled .sidebar-brand-text,
     #accordionSidebar.toggled .sidebar-heading,
-    #accordionSidebar.toggled hr,
-    #accordionSidebar.toggled .nav-icon-wrapper {
-        display: block !important;
+    #accordionSidebar.toggled .nav-item,
+    #accordionSidebar.toggled .nav-item .nav-link,
+    #accordionSidebar.toggled .nav-item .nav-link span,
+    #accordionSidebar.toggled .nav-item .nav-link i,
+    #accordionSidebar.toggled .nav-icon-wrapper,
+    #accordionSidebar.toggled hr {
+        display: flex !important;
         opacity: 1 !important;
         visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+        transform: none !important;
+    }
+
+    #accordionSidebar.toggled .nav-item {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    #accordionSidebar.toggled .sidebar-brand {
+        display: flex !important;
+        padding: 1.5rem 1rem !important;
+    }
+
+    #accordionSidebar.toggled .sidebar-brand-text {
+        display: block !important;
+        margin-left: 0.75rem !important;
     }
 
     #accordionSidebar.toggled .nav-item .nav-link span {
-        display: inline !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        font-size: 0.85rem !important;
-    }
-
-    #accordionSidebar.toggled .nav-item .nav-link i {
-        margin-right: 0.25rem !important;
-        text-align: left !important;
-        float: none !important;
-        margin-left: 0 !important;
-        margin-bottom: 0 !important;
         display: inline-block !important;
-        font-size: 0.85rem !important;
     }
 
     #accordionSidebar.toggled .sidebar-brand .sidebar-brand-text {
         display: inline !important;
         visibility: visible !important;
+    }
+
+    #accordionSidebar.toggled .sidebar-brand,
+    #accordionSidebar.toggled .nav-item .nav-link,
+    #accordionSidebar.toggled .sidebar-heading {
+        color: #ffffff !important;
+        transition: none !important;
     }
 
     #accordionSidebar.toggled .sidebar-brand {
