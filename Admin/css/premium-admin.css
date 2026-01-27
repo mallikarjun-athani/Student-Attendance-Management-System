@@ -460,14 +460,19 @@ h6,
 /* --- Mobile Responsiveness --- */
 @media (max-width: 768px) {
 
-    /* Hide the original glitchy sidebar completely on mobile */
+    /* Aggressively Hide the original glitchy sidebar and masks completely on mobile */
     #accordionSidebar,
     .sidebar,
-    .sidebar-mask {
+    .sidebar-mask,
+    .app-sidebar-backdrop {
         display: none !important;
         visibility: hidden !important;
         opacity: 0 !important;
         width: 0 !important;
+        height: 0 !important;
+        position: fixed !important;
+        left: -100% !important;
+        pointer-events: none !important;
     }
 
     /* Force content to take full width */

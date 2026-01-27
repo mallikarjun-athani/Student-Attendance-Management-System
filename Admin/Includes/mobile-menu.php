@@ -1,10 +1,10 @@
 <?php
-// Rock-Solid Pure CSS Mobile Overlay (No Bootstrap Modal)
+// Rock-Solid Pure CSS Mobile Overlay for Admin (All Items Included)
 ?>
 <div id="customMobileMenu" class="custom-mobile-menu">
     <div class="menu-header">
         <div class="brand">
-            <i class="fas fa-user-shield"></i>
+            <i class="fas fa-user-shield text-primary"></i>
             <span>SAMS ADMIN</span>
         </div>
         <button onclick="toggleCustomMenu()" class="close-btn">&times;</button>
@@ -12,14 +12,18 @@
     
     <div class="menu-body">
         <div class="menu-section">MAIN MENU</div>
-        <a href="index.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="index.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
         
-        <div class="menu-section">OPERATIONS</div>
-        <a href="createClass.php" class="menu-item"><i class="fas fa-university"></i> Classes</a>
-        <a href="createClassArms.php" class="menu-item"><i class="fas fa-layer-group"></i> Semesters</a>
-        <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
-        <a href="createStudents.php" class="menu-item"><i class="fas fa-user-graduate"></i> Students</a>
-        <a href="createSessionTerm.php" class="menu-item"><i class="fas fa-calendar-alt"></i> Terms</a>
+        <div class="menu-section">ACADEMIC</div>
+        <a href="createClass.php" class="menu-item"><i class="fas fa-university"></i> <span>Classes</span></a>
+        <a href="createClassArms.php" class="menu-item"><i class="fas fa-layer-group"></i> <span>Semesters</span></a>
+        
+        <div class="menu-section">STAFF & STUDENTS</div>
+        <a href="createClassTeacher.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> <span>Teachers</span></a>
+        <a href="createStudents.php" class="menu-item"><i class="fas fa-user-graduate"></i> <span>Manage Students</span></a>
+        
+        <div class="menu-section">SETTINGS</div>
+        <a href="createSessionTerm.php" class="menu-item"><i class="fas fa-cog"></i> <span>Session & Term</span></a>
         
         <div class="menu-footer">
             <a href="logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
@@ -34,11 +38,11 @@
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    background: #0f172a !important; /* Deep Navy Blue Solid */
-    z-index: 100000 !important;
+    background: #0f172a !important; 
+    z-index: 999999 !important;
     display: none;
     flex-direction: column;
-    padding: 20px !important;
+    padding: 20px 25px !important;
     overflow-y: auto !important;
 }
 
@@ -50,64 +54,62 @@
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
-    padding-bottom: 20px !important;
+    padding-bottom: 25px !important;
     border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 10px !important;
 }
 
 .menu-header .brand {
     color: #ffffff !important;
-    font-size: 1.5rem !important;
+    font-size: 1.4rem !important;
     font-weight: 800 !important;
     display: flex !important;
     align-items: center !important;
 }
 
 .menu-header .brand i {
-    margin-right: 15px !important;
-    color: #6366f1 !important;
+    margin-right: 12px !important;
 }
 
 .close-btn {
     background: transparent !important;
     border: none !important;
     color: #ffffff !important;
-    font-size: 3rem !important;
+    font-size: 2.5rem !important;
     line-height: 1 !important;
-    padding: 0 10px !important;
 }
 
 .menu-section {
-    color: rgba(255,255,255,0.5) !important;
-    font-size: 0.8rem !important;
+    color: rgba(255,255,255,0.4) !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
-    letter-spacing: 0.1rem !important;
-    margin: 25px 0 15px 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.15rem !important;
+    margin: 30px 0 15px 5px !important;
 }
 
 .menu-item {
     display: flex !important;
     align-items: center !important;
-    padding: 18px 20px !important;
+    padding: 15px 20px !important;
     background: rgba(255,255,255,0.05) !important;
     color: #ffffff !important;
     text-decoration: none !important;
     border-radius: 12px !important;
-    margin-bottom: 10px !important;
-    font-size: 1.1rem !important;
+    margin-bottom: 8px !important;
     font-weight: 500 !important;
     border: 1px solid rgba(255,255,255,0.05) !important;
 }
 
 .menu-item i {
-    width: 30px !important;
+    width: 25px !important;
     margin-right: 15px !important;
-    color: #8b5cf6 !important;
+    color: #6366f1 !important;
+    font-size: 1.1rem !important;
 }
 
 .menu-footer {
-    margin-top: 40px !important;
-    padding-bottom: 40px !important;
+    margin: 40px 0 60px 0 !important;
 }
 
 .logout-btn {
@@ -118,12 +120,11 @@
     color: #ffffff !important;
     text-align: center !important;
     text-decoration: none !important;
-    border-radius: 12px !important;
-    font-weight: 700 !important;
+    border-radius: 15px !important;
+    font-weight: 800 !important;
 }
 
-/* Ensure no text is hidden */
-.custom-mobile-menu * {
+.custom-mobile-menu, .custom-mobile-menu * {
     opacity: 1 !important;
     visibility: visible !important;
 }
@@ -132,6 +133,7 @@
 <script>
 function toggleCustomMenu() {
     var menu = document.getElementById('customMobileMenu');
+    if (!menu) return;
     if (menu.classList.contains('active')) {
         menu.classList.remove('active');
         document.body.style.overflow = '';
