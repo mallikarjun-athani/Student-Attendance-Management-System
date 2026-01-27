@@ -154,30 +154,43 @@ if (isset($_POST['register'])) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Photo upload is required.</div>";
   } else {
     // Duplicate check within same semester
-    $stmt = $conn->prepare("SELECT Id FROM tblstudents WHERE admissionNumber = ? AND classArmId = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT Id, emailAddress FROM tblstudents WHERE admissionNumber = ? AND classArmId = ? LIMIT 1");
     $stmt->bind_param('si', $admissionNumber, $classArmId);
     $stmt->execute();
-    $dup = $stmt->get_result();
-    if ($dup && $dup->num_rows > 0) {
-      $statusMsg = "<div class='alert alert-danger' role='alert'>This student already exists in this semester!</div>";
+    $dupRes = $stmt->get_result();
+    $existingStudent = $dupRes->fetch_assoc();
+
+    if ($existingStudent && strtolower($existingStudent['emailAddress']) !== strtolower($emailAddress)) {
+      $statusMsg = "<div class='alert alert-danger' role='alert'>This registration number is already taken by another student in this semester!</div>";
     } else {
       $dateCreated = date('Y-m-d');
       $passwordHash = md5($passwordRaw);
 
-      $stmt2 = $conn->prepare("INSERT INTO tblstudents(firstName,lastName,otherName,admissionNumber,emailAddress,phoneNo,password,classId,classArmId,session,division,syllabusType,dateCreated) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-      $stmt2->bind_param('sssssssiissss', $firstName, $lastName, $otherName, $admissionNumber, $emailAddress, $phoneNo, $passwordHash, $classId, $classArmId, $session, $division, $syllabusType, $dateCreated);
+      if ($existingStudent) {
+        // UPDATE existing record
+        $studentId = $existingStudent['Id'];
+        $stmt2 = $conn->prepare("UPDATE tblstudents SET firstName=?, lastName=?, otherName=?, emailAddress=?, phoneNo=?, password=?, classId=?, session=?, division=?, syllabusType=? WHERE Id=?");
+        $stmt2->bind_param('ssssssisssi', $firstName, $lastName, $otherName, $emailAddress, $phoneNo, $passwordHash, $classId, $session, $division, $syllabusType, $studentId);
+      } else {
+        // INSERT new record
+        $stmt2 = $conn->prepare("INSERT INTO tblstudents(firstName,lastName,otherName,admissionNumber,emailAddress,phoneNo,password,classId,classArmId,session,division,syllabusType,dateCreated) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt2->bind_param('sssssssiissss', $firstName, $lastName, $otherName, $admissionNumber, $emailAddress, $phoneNo, $passwordHash, $classId, $classArmId, $session, $division, $syllabusType, $dateCreated);
+      }
 
       if ($stmt2->execute()) {
-        $newId = $conn->insert_id;
-        list($okPhoto, $photoRelPath, $photoErr) = saveStudentPhotoUpload($newId, '');
+        $studentId = $existingStudent ? $existingStudent['Id'] : $conn->insert_id;
+        
+        // Handle photo upload
+        list($okPhoto, $photoRelPath, $photoErr) = saveStudentPhotoUpload($studentId, '');
         if ($okPhoto && $photoRelPath !== '') {
-          @mysqli_query($conn, "UPDATE tblstudents SET photo='".mysqli_real_escape_string($conn, $photoRelPath)."' WHERE Id='".intval($newId)."'");
+          @mysqli_query($conn, "UPDATE tblstudents SET photo='".mysqli_real_escape_string($conn, $photoRelPath)."' WHERE Id='".intval($studentId)."'");
         }
 
         if (!$okPhoto) {
           $statusMsg = "<div class='alert alert-danger' role='alert'>".htmlspecialchars($photoErr)."</div>";
         } else {
-          header('Location: login.php?status=registered');
+          $successParam = $existingStudent ? 'updated' : 'registered';
+          header('Location: login.php?status='.$successParam);
           exit;
         }
       } else {

@@ -547,8 +547,8 @@ if(isset($_POST['save'])){
                                 tblstudents.photo,
                                 tblstudents.dateCreated
                               FROM tblstudents
-                              INNER JOIN tblclass ON tblclass.Id = tblstudents.classId
-                              INNER JOIN tblclasssemister ON tblclasssemister.Id = tblstudents.classArmId";
+                              LEFT JOIN tblclass ON tblclass.Id = tblstudents.classId
+                              LEFT JOIN tblclasssemister ON tblclasssemister.Id = tblstudents.classArmId";
                       $rs = $conn->query($query);
                       $num = $rs->num_rows;
                       $sn=0;
@@ -567,11 +567,11 @@ if(isset($_POST['save'])){
                                 <td>".$rows['emailAddress']."</td>
                                 <td>".$rows['phoneNo']."</td>
                                 <td>".$rows['admissionNumber']."</td>
-                                <td>".$rows['className']."</td>
-                                <td>".$rows['semisterName']."</td>
-                                <td>".$rows['session']."</td>
-                                <td>".$rows['division']."</td>
-                                <td>".$rows['syllabusType']."</td>
+                                <td>".($rows['className'] ?? 'N/A')."</td>
+                                <td>".($rows['semisterName'] ?? 'N/A')."</td>
+                                <td>".($rows['session'] ?? 'N/A')."</td>
+                                <td>".($rows['division'] ?? 'N/A')."</td>
+                                <td>".($rows['syllabusType'] ?? 'N/A')."</td>
                                 <td>".$rows['dateCreated']."</td>
                                 <td>".(($rows['photo'] ?? '') !== '' ? "<img src='../".htmlspecialchars($rows['photo'])."' alt='Photo' style='width:40px;height:40px;object-fit:cover;border-radius:4px;'>" : "")."</td>
                                 <td><a href='?action=edit&Id=".$rows['Id']."'><i class='fas fa-fw fa-edit'></i></a></td>
