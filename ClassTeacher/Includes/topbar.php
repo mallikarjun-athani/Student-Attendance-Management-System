@@ -128,29 +128,22 @@
         body.classList.remove('sidebar-toggled');
         var sidebar = document.querySelector('.sidebar');
         if(sidebar) {
-          sidebar.classList.remove('toggled');
-        }
-      }
-
-      function openSidebar() {
-        body.classList.add('sidebar-open');
-        body.classList.add('sidebar-toggled');
-        var sidebar = document.querySelector('.sidebar');
-        if(sidebar) {
           sidebar.classList.add('toggled');
         }
       }
 
       // Toggle button syncs sidebar-open class for our custom CSS
       if(toggleBtn) {
-        toggleBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          if(isSidebarOpen()) {
-            closeSidebar();
-          } else {
-            openSidebar();
-          }
+        toggleBtn.addEventListener('click', function() {
+          // Sync our sidebar-open class with the toggle state
+          setTimeout(function() {
+            var sidebar = document.querySelector('.sidebar');
+            if(sidebar && !sidebar.classList.contains('toggled')) {
+              body.classList.add('sidebar-open');
+            } else {
+              body.classList.remove('sidebar-open');
+            }
+          }, 10);
         });
       }
       
