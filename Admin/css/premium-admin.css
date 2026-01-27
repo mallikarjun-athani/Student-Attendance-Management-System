@@ -72,26 +72,28 @@ body {
     z-index: 1001;
 }
 
-/* Sidebar Toggle - Collapsed State (Completely Hidden) */
-.sidebar.toggled {
-    width: 0 !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-    border: none !important;
-}
+/* Sidebar Toggle - Collapsed State (Desktop only) */
+@media (min-width: 769px) {
+    .sidebar.toggled {
+        width: 0 !important;
+        min-width: 0 !important;
+        overflow: hidden !important;
+        padding: 0 !important;
+        border: none !important;
+    }
 
-.sidebar.toggled .nav-item,
-.sidebar.toggled .sidebar-brand,
-.sidebar.toggled .sidebar-heading,
-.sidebar.toggled hr {
-    display: none !important;
-    opacity: 0;
-}
+    .sidebar.toggled .nav-item,
+    .sidebar.toggled .sidebar-brand,
+    .sidebar.toggled .sidebar-heading,
+    .sidebar.toggled hr {
+        display: none !important;
+        opacity: 0;
+    }
 
-.sidebar.toggled+#content-wrapper {
-    width: 100%;
-    margin-left: 0;
+    .sidebar.toggled+#content-wrapper {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 .sidebar-brand {
@@ -465,10 +467,15 @@ h6,
         border-radius: 0 30px 30px 0;
         z-index: 2000;
         box-shadow: 25px 0 50px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     #accordionSidebar.toggled {
         left: 0;
+        width: 280px !important;
+        min-width: 280px !important;
+        overflow-y: auto !important;
     }
 
     /* Fix: Ensure sidebar content is visible on mobile when toggled */
