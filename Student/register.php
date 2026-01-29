@@ -654,5 +654,28 @@ if (isset($_POST['register'])) {
       });
     });
   </script>
+
+  <?php if ($isEditing): ?>
+  <!-- Pro Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <a href="index.php" class="mobile-nav-item <?php echo (basename($_SERVER['PHP_SELF']) == 'index.php') ? 'active' : ''; ?>">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="attendanceQr.php" class="mobile-nav-item">
+      <i class="fas fa-qrcode"></i>
+      <span>Scan</span>
+    </a>
+    <a href="attendanceView.php" class="mobile-nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Status</span>
+    </a>
+    <a href="qr.php" class="mobile-nav-item">
+      <i class="fas fa-id-card"></i>
+      <span>My ID</span>
+    </a>
+  </nav>
+  <?php endif; ?>
+
 </body>
 </html>

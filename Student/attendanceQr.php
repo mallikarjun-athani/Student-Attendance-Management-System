@@ -403,6 +403,26 @@ $studentName = trim(($student['firstName'] ?? '').' '.($student['lastName'] ?? '
       showStatus('Ready. Click Open Camera to start scanning.', 'alert-secondary', 6000);
     });
   </script>
-</body>
 
+  <!-- Pro Mobile Bottom Navigation -->
+  <nav class="mobile-nav">
+    <a href="index.php" class="mobile-nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="attendanceQr.php" class="mobile-nav-item active">
+      <i class="fas fa-qrcode"></i>
+      <span>Scan</span>
+    </a>
+    <a href="attendanceView.php" class="mobile-nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Status</span>
+    </a>
+    <a href="qr.php" class="mobile-nav-item">
+      <i class="fas fa-id-card"></i>
+      <span>My ID</span>
+    </a>
+  </nav>
+
+</body>
 </html>

@@ -74,7 +74,7 @@ $stmt->close();
                 <div class="card-body p-0">
                     <div class="row no-gutters">
                         <!-- Left Side: Visual Identity -->
-                        <div class="col-md-5 d-flex align-items-center justify-content-center p-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-right: 1px solid rgba(0,0,0,0.03);">
+                        <div class="col-md-5 d-flex align-items-center justify-content-center p-4 p-md-5" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-right: 1px solid rgba(0,0,0,0.03);">
                             <div class="text-center">
                                 <div class="position-relative mb-4 d-inline-block">
                                     <?php
@@ -93,7 +93,7 @@ $stmt->close();
                         </div>
                         
                         <!-- Right Side: Contact & Actions -->
-                        <div class="col-md-7 p-5">
+                        <div class="col-md-7 p-4 p-md-5">
                             <div class="d-flex justify-content-between align-items-start mb-4">
                                 <h5 class="font-weight-bold text-dark"><i class="fas fa-info-circle mr-2 text-primary"></i> Personal Information</h5>
                             </div>
