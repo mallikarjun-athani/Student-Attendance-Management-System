@@ -96,4 +96,4 @@ SAMS Pro utilizes a **"Pro Cosmic"** design system featuring:
 
 ---
 
-Developed with ❤️ and focus on Excellence.
+Developed By :- **Mallikarjun Athani**
