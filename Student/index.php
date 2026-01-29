@@ -1,11 +1,14 @@
 <?php
+include '../Includes/dbcon.php';
 include '../Includes/session.php';
+
 // Student-specific role verification
 if (!isset($_SESSION['userType']) || $_SESSION['userType'] !== 'Student') {
   header('Location: login.php');
   exit;
 }
 
+$currentPage = basename($_SERVER['PHP_SELF']);
 $studentId = intval($_SESSION['studentId']);
 $student = null;
 
