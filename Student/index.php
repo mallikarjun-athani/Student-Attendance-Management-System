@@ -53,6 +53,15 @@ $stmt->close();
         </nav>
 
         <div class="container-fluid" id="container-wrapper">
+          <?php if (isset($_GET['status']) && $_GET['status'] == 'profile_updated'): ?>
+            <div class='alert alert-success alert-dismissible fade show mb-4' role='alert' style='border-radius:15px; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #10b981;'>
+              <i class="fas fa-check-circle mr-2"></i> Your profile has been updated successfully!
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <?php endif; ?>
+
           <div class="mb-4">
             <h1 class="h2 font-weight-bold text-gray-900" style="letter-spacing: -1px;">My Dashboard</h1>
             <p class="text-muted">Manage your profile and track your academic progress.</p>

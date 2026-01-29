@@ -114,6 +114,25 @@ if ($sessQ) {
 // Helper: semesters for selected class
 $selectedClassId = isset($_POST['classId']) ? intval($_POST['classId']) : 0;
 $semesters = [];
+
+// Check if user is logged in as student to pre-fill form
+$isEditing = false;
+$editData = [];
+if (isset($_SESSION['studentId']) && $_SESSION['userType'] === 'Student') {
+    $isEditing = true;
+    $stmtEdit = $conn->prepare("SELECT * FROM tblstudents WHERE Id = ? LIMIT 1");
+    $stmtEdit->bind_param('i', $_SESSION['studentId']);
+    $stmtEdit->execute();
+    $resEdit = $stmtEdit->get_result();
+    if ($resEdit && $resEdit->num_rows > 0) {
+        $editData = $resEdit->fetch_assoc();
+        if ($selectedClassId === 0) {
+            $selectedClassId = intval($editData['classId']);
+        }
+    }
+    $stmtEdit->close();
+}
+
 if ($selectedClassId > 0) {
   $semQ = $conn->query("SELECT * FROM tblclasssemister WHERE classId = ".$selectedClassId." ORDER BY semisterName ASC");
   if ($semQ) {
@@ -138,7 +157,10 @@ if (isset($_POST['register'])) {
   $passwordRaw = isset($_POST['password']) ? $_POST['password'] : '';
   $password2 = isset($_POST['password2']) ? $_POST['password2'] : '';
 
-  if ($firstName === '' || $lastName === '' || $otherName === '' || $admissionNumber === '' || $emailAddress === '' || $phoneNo === '' || $classId <= 0 || $classArmId <= 0 || $session === '' || $syllabusType === '' || $division === '' || $passwordRaw === '') {
+  $isPhotoUploaded = (isset($_FILES['studentPhoto']) && isset($_FILES['studentPhoto']['error']) && $_FILES['studentPhoto']['error'] !== UPLOAD_ERR_NO_FILE);
+  $isEmailChanged = ($isEditing && strtolower($emailAddress) !== strtolower($editData['emailAddress'] ?? ''));
+
+  if ($firstName === '' || $lastName === '' || $otherName === '' || $admissionNumber === '' || $emailAddress === '' || $phoneNo === '' || $classId <= 0 || $classArmId <= 0 || $session === '' || $syllabusType === '' || $division === '' || ($passwordRaw === '' && !$isEditing)) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>All fields are required.</div>";
   } else if (strlen($admissionNumber) !== 12) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Registration Number must be exactly 12 characters.</div>";
@@ -146,11 +168,13 @@ if (isset($_POST['register'])) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Phone Number must be exactly 10 digits.</div>";
   } else if (!filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Invalid email address.</div>";
-  } else if (!isset($_SESSION['email_verified']) || strtolower($_SESSION['email_verified']) !== strtolower($emailAddress)) {
+  } else if (!$isEditing && (!isset($_SESSION['email_verified']) || strtolower($_SESSION['email_verified']) !== strtolower($emailAddress))) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Email verification is required.</div>";
-  } else if ($passwordRaw !== $password2) {
+  } else if ($isEmailChanged && (!isset($_SESSION['email_verified']) || strtolower($_SESSION['email_verified']) !== strtolower($emailAddress))) {
+    $statusMsg = "<div class='alert alert-danger' role='alert'>Email verification is required for the new email address.</div>";
+  } else if ($passwordRaw !== '' && $passwordRaw !== $password2) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Passwords do not match.</div>";
-  } else if (!isset($_FILES['studentPhoto']) || !isset($_FILES['studentPhoto']['error']) || $_FILES['studentPhoto']['error'] === UPLOAD_ERR_NO_FILE) {
+  } else if (!$isEditing && !$isPhotoUploaded) {
     $statusMsg = "<div class='alert alert-danger' role='alert'>Photo upload is required.</div>";
   } else {
     // Duplicate check within same semester
@@ -164,24 +188,28 @@ if (isset($_POST['register'])) {
       $statusMsg = "<div class='alert alert-danger' role='alert'>This registration number is already taken by another student in this semester!</div>";
     } else {
       $dateCreated = date('Y-m-d');
-      $passwordHash = md5($passwordRaw);
+      $passwordHash = ($passwordRaw !== '') ? md5($passwordRaw) : ($editData['password'] ?? '');
 
-      if ($existingStudent) {
-        // UPDATE existing record
-        $studentId = $existingStudent['Id'];
-        $stmt2 = $conn->prepare("UPDATE tblstudents SET firstName=?, lastName=?, otherName=?, emailAddress=?, phoneNo=?, password=?, classId=?, session=?, division=?, syllabusType=? WHERE Id=?");
-        $stmt2->bind_param('ssssssisssi', $firstName, $lastName, $otherName, $emailAddress, $phoneNo, $passwordHash, $classId, $session, $division, $syllabusType, $studentId);
+      if ($isEditing) {
+        // UPDATE existing record for current logged-in user
+        $studentId = $_SESSION['studentId'];
+        $stmt2 = $conn->prepare("UPDATE tblstudents SET firstName=?, lastName=?, otherName=?, admissionNumber=?, emailAddress=?, phoneNo=?, password=?, classId=?, classArmId=?, session=?, division=?, syllabusType=? WHERE Id=?");
+        $stmt2->bind_param('sssssssiisssi', $firstName, $lastName, $otherName, $admissionNumber, $emailAddress, $phoneNo, $passwordHash, $classId, $classArmId, $session, $division, $syllabusType, $studentId);
+      } else if ($existingStudent) {
+        // Handle potential duplication if admission number exists for another student
+        $statusMsg = "<div class='alert alert-danger' role='alert'>This registration number is already taken!</div>";
+        goto end_processing;
       } else {
         // INSERT new record
         $stmt2 = $conn->prepare("INSERT INTO tblstudents(firstName,lastName,otherName,admissionNumber,emailAddress,phoneNo,password,classId,classArmId,session,division,syllabusType,dateCreated) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
         $stmt2->bind_param('sssssssiissss', $firstName, $lastName, $otherName, $admissionNumber, $emailAddress, $phoneNo, $passwordHash, $classId, $classArmId, $session, $division, $syllabusType, $dateCreated);
       }
 
-      if ($stmt2->execute()) {
-        $studentId = $existingStudent ? $existingStudent['Id'] : $conn->insert_id;
+      if (isset($stmt2) && $stmt2->execute()) {
+        $studentId = $isEditing ? $_SESSION['studentId'] : $conn->insert_id;
         
         // Handle photo upload
-        list($okPhoto, $photoRelPath, $photoErr) = saveStudentPhotoUpload($studentId, '');
+        list($okPhoto, $photoRelPath, $photoErr) = saveStudentPhotoUpload($studentId, $isEditing ? ($editData['photo'] ?? '') : '');
         if ($okPhoto && $photoRelPath !== '') {
           @mysqli_query($conn, "UPDATE tblstudents SET photo='".mysqli_real_escape_string($conn, $photoRelPath)."' WHERE Id='".intval($studentId)."'");
         }
@@ -189,14 +217,19 @@ if (isset($_POST['register'])) {
         if (!$okPhoto) {
           $statusMsg = "<div class='alert alert-danger' role='alert'>".htmlspecialchars($photoErr)."</div>";
         } else {
-          $successParam = $existingStudent ? 'updated' : 'registered';
-          header('Location: login.php?status='.$successParam);
+          if ($isEditing) {
+            header('Location: index.php?status=profile_updated');
+          } else {
+            $successParam = $existingStudent ? 'updated' : 'registered';
+            header('Location: login.php?status='.$successParam);
+          }
           exit;
         }
       } else {
         $statusMsg = "<div class='alert alert-danger' role='alert'>An error occurred while saving. Please try again.</div>";
       }
 
+      end_processing:
       if (isset($stmt2)) {
         $stmt2->close();
       }
@@ -216,13 +249,13 @@ if (isset($_POST['register'])) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link href="../img/logo/attnlg.jpg" rel="icon">
-  <title>Student Registration</title>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="../Admin/css/ruang-admin.min.css" rel="stylesheet">
   <link href="../Admin/css/premium-admin.css" rel="stylesheet">
-</head>  <style>
+  <title><?php echo $isEditing ? 'Edit Profile' : 'Student Registration'; ?></title>
+  <style>
     .container-login {
       width: 100%;
       max-width: 1100px;
@@ -279,12 +312,12 @@ if (isset($_POST['register'])) {
               <div class="card-body p-4 p-md-5">
                 <div class="text-center mb-5 d-lg-none">
                     <img src="../Admin/img/logo/attnlg.jpg" style="width: 70px; border-radius: 12px; margin-bottom: 15px;">
-                    <h3 class="font-weight-bold text-dark">Student Registration</h3>
+                    <h3 class="font-weight-bold text-dark"><?php echo $isEditing ? 'Edit Profile' : 'Student Registration'; ?></h3>
                 </div>
                 
                 <div class="d-none d-lg-block mb-5">
-                    <h3 class="font-weight-bold text-dark mb-1">Get Started</h3>
-                    <p class="text-muted small">Please fill in your details to create an account.</p>
+                    <h3 class="font-weight-bold text-dark mb-1"><?php echo $isEditing ? 'Update Profile' : 'Get Started'; ?></h3>
+                    <p class="text-muted small"><?php echo $isEditing ? 'Modify your personal information below.' : 'Please fill in your details to create an account.'; ?></p>
                 </div>
 
                 <?php echo $statusMsg; ?>
@@ -293,22 +326,22 @@ if (isset($_POST['register'])) {
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-md-0">
                       <label class="font-weight-bold small text-uppercase">First Name</label>
-                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="firstName" value="<?php echo isset($_POST['firstName']) ? htmlspecialchars($_POST['firstName']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="firstName" value="<?php echo isset($_POST['firstName']) ? htmlspecialchars($_POST['firstName']) : (isset($editData['firstName']) ? htmlspecialchars($editData['firstName']) : ''); ?>" style="border-radius: 12px;">
                     </div>
                     <div class="col-md-6">
                       <label class="font-weight-bold small text-uppercase">Father's Name</label>
-                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="otherName" value="<?php echo isset($_POST['otherName']) ? htmlspecialchars($_POST['otherName']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="otherName" value="<?php echo isset($_POST['otherName']) ? htmlspecialchars($_POST['otherName']) : (isset($editData['otherName']) ? htmlspecialchars($editData['otherName']) : ''); ?>" style="border-radius: 12px;">
                     </div>
                   </div>
 
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-md-0">
                       <label class="font-weight-bold small text-uppercase">Last Name</label>
-                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="lastName" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="lastName" value="<?php echo isset($_POST['lastName']) ? htmlspecialchars($_POST['lastName']) : (isset($editData['lastName']) ? htmlspecialchars($editData['lastName']) : ''); ?>" style="border-radius: 12px;">
                     </div>
                     <div class="col-md-6">
                       <label class="font-weight-bold small text-uppercase">Email Address</label>
-                      <input type="email" class="form-control form-control-lg border-0 bg-light" required name="emailAddress" id="emailAddress" value="<?php echo isset($_POST['emailAddress']) ? htmlspecialchars($_POST['emailAddress']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="email" class="form-control form-control-lg border-0 bg-light" required name="emailAddress" id="emailAddress" value="<?php echo isset($_POST['emailAddress']) ? htmlspecialchars($_POST['emailAddress']) : (isset($editData['emailAddress']) ? htmlspecialchars($editData['emailAddress']) : ''); ?>" style="border-radius: 12px;">
                       
                       <div class="mt-2" id="emailValidateWrap" style="display:none;">
                         <button type="button" class="btn btn-sm btn-primary py-1" id="btnEmailSendOtp">Send OTP</button>
@@ -330,22 +363,22 @@ if (isset($_POST['register'])) {
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-md-0">
                       <label class="font-weight-bold small text-uppercase">Registration Number</label>
-                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="admissionNumber" id="admissionNumber" minlength="12" maxlength="12" placeholder="12 digit ID" value="<?php echo isset($_POST['admissionNumber']) ? htmlspecialchars($_POST['admissionNumber']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="admissionNumber" id="admissionNumber" minlength="12" maxlength="12" placeholder="12 digit ID" value="<?php echo isset($_POST['admissionNumber']) ? htmlspecialchars($_POST['admissionNumber']) : (isset($editData['admissionNumber']) ? htmlspecialchars($editData['admissionNumber']) : ''); ?>" style="border-radius: 12px;" <?php echo $isEditing ? 'readonly' : ''; ?>>
                     </div>
                     <div class="col-md-6">
                       <label class="font-weight-bold small text-uppercase">Phone Number</label>
-                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="phoneNo" id="phoneNo" minlength="10" maxlength="10" inputmode="numeric" pattern="\d{10}" value="<?php echo isset($_POST['phoneNo']) ? htmlspecialchars($_POST['phoneNo']) : ''; ?>" style="border-radius: 12px;">
+                      <input type="text" class="form-control form-control-lg border-0 bg-light" required name="phoneNo" id="phoneNo" minlength="10" maxlength="10" inputmode="numeric" pattern="\d{10}" value="<?php echo isset($_POST['phoneNo']) ? htmlspecialchars($_POST['phoneNo']) : (isset($editData['phoneNo']) ? htmlspecialchars($editData['phoneNo']) : ''); ?>" style="border-radius: 12px;">
                     </div>
                   </div>
 
                   <div class="form-group row">
                     <div class="col-md-6 mb-3 mb-md-0">
-                      <label class="font-weight-bold small text-uppercase">Password</label>
-                      <input type="password" class="form-control form-control-lg border-0 bg-light" required name="password" id="password" style="border-radius: 12px;">
+                      <label class="font-weight-bold small text-uppercase">Password <?php echo $isEditing ? '(Leave blank to keep current)' : ''; ?></label>
+                      <input type="password" class="form-control form-control-lg border-0 bg-light" <?php echo $isEditing ? '' : 'required'; ?> name="password" id="password" style="border-radius: 12px;">
                     </div>
                     <div class="col-md-6">
                       <label class="font-weight-bold small text-uppercase">Confirm Password</label>
-                      <input type="password" class="form-control form-control-lg border-0 bg-light" required name="password2" id="password2" style="border-radius: 12px;">
+                      <input type="password" class="form-control form-control-lg border-0 bg-light" <?php echo $isEditing ? '' : 'required'; ?> name="password2" id="password2" style="border-radius: 12px;">
                     </div>
                   </div>
 
@@ -356,20 +389,31 @@ if (isset($_POST['register'])) {
                           <div class="col-4">
                               <select name="session" class="form-control border-0 bg-light" required style="border-radius: 10px;">
                                 <option value="">Session</option>
-                                <?php foreach ($sessions as $sess) { echo '<option value="'.htmlspecialchars($sess).'">'.htmlspecialchars($sess).'</option>'; } ?>
+                                <?php foreach ($sessions as $sess) { 
+                                  $selSess = (isset($_POST['session']) && $_POST['session'] === $sess) || (isset($editData['session']) && $editData['session'] === $sess) ? 'selected' : '';
+                                  echo '<option value="'.htmlspecialchars($sess).'" '.$selSess.'>'.htmlspecialchars($sess).'</option>'; 
+                                } ?>
                               </select>
                           </div>
                           <div class="col-4">
                               <select name="syllabusType" class="form-control border-0 bg-light" required style="border-radius: 10px;">
                                 <option value="">Syllabus</option>
-                                <option value="SEP">SEP</option>
-                                <option value="NEP">NEP</option>
+                                <?php 
+                                  $currSyl = isset($_POST['syllabusType']) ? $_POST['syllabusType'] : ($editData['syllabusType'] ?? '');
+                                  echo '<option value="SEP" '.($currSyl === 'SEP' ? 'selected' : '').'>SEP</option>';
+                                  echo '<option value="NEP" '.($currSyl === 'NEP' ? 'selected' : '').'>NEP</option>';
+                                ?>
                               </select>
                           </div>
                           <div class="col-4">
                               <select name="division" class="form-control border-0 bg-light" required style="border-radius: 10px;">
-                                <option value="Not Applicable" selected>Not Applicable</option>
-                                <option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option>
+                                <option value="Not Applicable" <?php echo (isset($_POST['division']) ? $_POST['division'] : ($editData['division'] ?? '')) === 'Not Applicable' ? 'selected' : ''; ?>>Not Applicable</option>
+                                <?php 
+                                  foreach(['A','B','C','D'] as $div) {
+                                    $selDiv = (isset($_POST['division']) ? $_POST['division'] : ($editData['division'] ?? '')) === $div ? 'selected' : '';
+                                    echo '<option value="'.$div.'" '.$selDiv.'>'.$div.'</option>';
+                                  }
+                                ?>
                               </select>
                           </div>
                       </div>
@@ -392,7 +436,8 @@ if (isset($_POST['register'])) {
                       <select name="classArmId" class="form-control border-0 bg-light" required style="border-radius: 10px;">
                         <option value="">--Select--</option>
                         <?php foreach ($semesters as $s) {
-                          $ssel = ($selectedSemId === intval($s['Id'])) ? 'selected' : '';
+                          $currSem = isset($_POST['classArmId']) ? intval($_POST['classArmId']) : (isset($editData['classArmId']) ? intval($editData['classArmId']) : 0);
+                          $ssel = ($currSem === intval($s['Id'])) ? 'selected' : '';
                           echo '<option value="'.intval($s['Id']).'" '.$ssel.'>'.htmlspecialchars($s['semisterName']).'</option>';
                         } ?>
                       </select>
@@ -400,17 +445,21 @@ if (isset($_POST['register'])) {
                   </div>
 
                   <div class="form-group mb-5">
-                    <label class="font-weight-bold small text-uppercase">Profile Photo</label>
+                    <label class="font-weight-bold small text-uppercase">Profile Photo <?php echo $isEditing ? '(Leave blank to keep current)' : ''; ?></label>
                     <div class="custom-file mb-3">
-                      <input type="file" class="custom-file-input" name="studentPhoto" accept="image/*" required id="customFile">
+                      <input type="file" class="custom-file-input" name="studentPhoto" accept="image/*" <?php echo $isEditing ? '' : 'required'; ?> id="customFile">
                       <label class="custom-file-label border-0 bg-light" for="customFile" style="border-radius: 12px;">Choose image...</label>
                     </div>
                     <div class="text-center">
-                        <img id="imagePreview" src="#" alt="Preview" style="display:none; width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
+                        <?php 
+                          $preImg = isset($editData['photo']) && $editData['photo'] != '' ? '../'.$editData['photo'] : '#';
+                          $imgDisp = isset($editData['photo']) && $editData['photo'] != '' ? 'block' : 'none';
+                        ?>
+                        <img id="imagePreview" src="<?php echo $preImg; ?>" alt="Preview" style="display:<?php echo $imgDisp; ?>; width: 120px; height: 120px; object-fit: cover; border-radius: 20px; border: 3px solid var(--primary-light); box-shadow: 0 10px 20px rgba(0,0,0,0.1);">
                     </div>
                   </div>
 
-                  <button type="submit" name="register" id="btnRegister" class="btn btn-primary btn-block py-3" disabled>Complete Registration</button>
+                  <button type="submit" name="register" id="btnRegister" class="btn btn-primary btn-block py-3" <?php echo $isEditing ? '' : 'disabled'; ?>><?php echo $isEditing ? 'Save Changes' : 'Complete Registration'; ?></button>
                   
                   <div class="text-center mt-4">
                     <p class="text-muted small">Already registered? <a href="login.php" class="text-primary font-weight-bold">Sign In</a></p>
